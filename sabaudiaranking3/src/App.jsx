@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Home from "./components/Home";
+import Ranking from "./components/Ranking";
+import Scoring from "./components/Scoring";
+import Player from "./components/Player";
+import Options from "./components/Options";
+import { ToastContainer } from "react-toastify";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div id="root" className="bg-sky-600">
+      <Router>
+        <Routes>
+          <Route path="/sabaudiaranking3" element={<Home />} />
+          <Route
+            path="/sabaudiaranking3/player/:playerId"
+            element={<Player />}
+          />
+          <Route path="/sabaudiaranking3/classement" element={<Ranking />} />
+          <Route path="/sabaudiaranking3/scoring" element={<Scoring />} />
+          <Route path="/sabaudiaranking3/options" element={<Options />} />
+        </Routes>
+      </Router>
+      <ToastContainer />
+    </div>
+  );
 }
 
-export default App
+export default App;
