@@ -1,4 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import {
+  GetButtonStyle,
+  GetContainerStyle,
+  GetTextStyle,
+} from "../utility/Formatting";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -16,15 +21,15 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col content-center">
-      <h1 className="text-3xl font-bold underline">Sabaudia Ranking ! </h1>
-      <button className="" onClick={GoToScoringPage}>
+    <div className={GetContainerStyle("vertical")}>
+      <h1 className={GetTextStyle("title")}>Sabaudia Ranking ! </h1>
+      <button className={GetButtonStyle()} onClick={GoToScoringPage}>
         Ajouter un score
       </button>
-      <button className="" onClick={GoToRankingPage}>
+      <button className={GetButtonStyle()} onClick={GoToRankingPage}>
         Classement
       </button>
-      <button className="" onClick={GoToOptionsPage}>
+      <button className={GetButtonStyle()} onClick={GoToOptionsPage}>
         Options
       </button>
     </div>
