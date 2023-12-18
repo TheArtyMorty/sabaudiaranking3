@@ -45,7 +45,18 @@ export const GetImageStyle = (style) => {
 
 export const GetInputStyle = (style) => {
   switch (style.toLocaleLowerCase()) {
+    case "score":
+      return "h-8 m-2 text-base w-8";
     default:
       return "h-8 m-2 text-base";
+  }
+};
+
+export const GetSelectStyle = (style) => {
+  switch (style.toLocaleLowerCase()) {
+    case "player":
+      return "flex-1 text-base  w-52";
+    default:
+      return "flex-1 text-base";
   }
 };
