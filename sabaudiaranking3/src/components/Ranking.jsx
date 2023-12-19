@@ -39,7 +39,7 @@ const Ranking = () => {
       .map((p, index) => {
         return (
           <div
-            className={GetContainerStyle("horizontal") + " bg-blue-200"}
+            className={GetContainerStyle("listitem")}
             key={index}
             onTouchEnd={() => navigate("/sabaudiaranking3/player/" + p.ID)}
           >
@@ -65,7 +65,9 @@ const Ranking = () => {
           placeholder="..."
         />
       </div>
-      <div className={GetContainerStyle("scrolllist")}>{GetPlayerList()}</div>
+      <div className={GetContainerStyle("scrolllist") + " max-h-36"}>
+        {GetPlayerList()}
+      </div>
     </div>
   );
 };

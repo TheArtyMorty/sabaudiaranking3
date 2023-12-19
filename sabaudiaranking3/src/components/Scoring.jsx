@@ -17,6 +17,7 @@ import Select from "react-select";
 import { defaultPlayer } from "../utility/PlayerUtility";
 import "react-toastify/dist/ReactToastify.css";
 import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const Scoring = () => {
   const [dbInitialized, setDBInitialized] = useState(false);
@@ -223,7 +224,7 @@ const Scoring = () => {
         },
         {
           label: "No",
-          onClick: () => alert("Click No"),
+          onClick: () => {},
         },
       ],
       closeOnEscape: true,

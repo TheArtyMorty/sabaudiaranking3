@@ -1,6 +1,7 @@
 import { ref, set, child, push, update, onValue } from "firebase/database";
 import { db } from "../firebaseConfig.js";
 import Globals from "../utility/Globals.js";
+import { defaultPlayer } from "../utility/PlayerUtility.js";
 
 export const addPlayer = (lastName, firstName, pseudo) => {
   const newItemKey = push(child(ref(db), Globals.ClubName + "/players")).key;

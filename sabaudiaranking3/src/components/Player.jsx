@@ -31,7 +31,7 @@ const Player = () => {
       .map((g, index) => {
         return (
           <div
-            className={GetContainerStyle("horizontal") + " bg-blue-200"}
+            className={GetContainerStyle("listitem")}
             key={index}
             onTouchEnd={() => navigate("/sabaudiaranking3/games/" + g.ID)}
           >

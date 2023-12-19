@@ -1,6 +1,9 @@
 export const storePlayer = (value) => {
   storeKeyValue("Player", value);
 };
+export const storeTheme = (value) => {
+  storeKeyValue("Theme", value);
+};
 export const storeClub = (value) => {
   storeKeyValue("Club", value);
 };
@@ -10,6 +13,9 @@ export const storeAdmin = (value) => {
 
 export const getPlayer = () => {
   return getKeyValue("Player");
+};
+export const getTheme = () => {
+  return getKeyValue("Theme");
 };
 export const getClub = () => {
   return getKeyValue("Club");

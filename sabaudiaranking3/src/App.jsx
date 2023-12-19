@@ -15,21 +15,30 @@ import Options from "./components/Options";
 import { ToastContainer } from "react-toastify";
 import { GetContainerStyle } from "./utility/Formatting";
 import { useState } from "react";
-import { getClub } from "./utility/LocalService";
+import { getAdmin, getClub, getPlayer, getTheme } from "./utility/LocalService";
+import Globals from "./utility/Globals";
 
 function App() {
   const club = getClub();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [needRefresh, setNeedRefresh] = useState(true);
 
   if (club != undefined && club != "" && !isLoggedIn) {
     setIsLoggedIn(true);
+  }
+
+  if (needRefresh) {
+    Globals.ClubName = getClub();
+    Globals.Admin = getAdmin();
+    Globals.Player = getPlayer();
+    Globals.Theme = getTheme();
+    setNeedRefresh(false);
   }
 
   const logIn = () => setIsLoggedIn(true);
   const logOut = () => setIsLoggedIn(false);
 
   const getLoadingPage = () => {
-    console.log(isLoggedIn);
     if (isLoggedIn) {
       return <Home />;
     } else {
@@ -53,7 +62,10 @@ function App() {
             path="/sabaudiaranking3/club"
             element={<Club login={logIn} />}
           />
-          <Route path="/sabaudiaranking3/options" element={<Options />} />
+          <Route
+            path="/sabaudiaranking3/options"
+            element={<Options logout={logOut} refresh={setNeedRefresh} />}
+          />
         </Routes>
       </Router>
       <ToastContainer />

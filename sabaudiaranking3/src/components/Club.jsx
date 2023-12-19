@@ -42,8 +42,6 @@ const Club = ({ login }) => {
     if (!clubChosen) {
       toast.warning("Selectionnez le club...");
     } else {
-      console.log(pwd);
-      console.log(club);
       if (pwd == club.pwd) {
         storeAdmin("false");
         storeClub(club.Name);
