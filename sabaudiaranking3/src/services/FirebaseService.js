@@ -159,3 +159,25 @@ export const GetGameFromDB = (gameID, setGame) => {
     setGame(newGame);
   });
 };
+
+export const getClubsFromDB = (setClubs) => {
+  const clubsRef = ref(db, "Clubs");
+  onValue(clubsRef, (snapshot) => {
+    const data = snapshot.val();
+    let newData = [
+      {
+        Name: "...",
+        pwd: "...",
+        adminpwd: "...",
+      },
+    ];
+    Object.values(data).forEach((club) => {
+      newData.push({
+        Name: club.Name,
+        pwd: club.pwd,
+        adminpwd: club.adminpwd,
+      });
+    });
+    setClubs(newData);
+  });
+};

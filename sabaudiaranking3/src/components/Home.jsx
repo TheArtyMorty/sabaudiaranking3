@@ -21,7 +21,7 @@ const Home = () => {
   };
 
   return (
-    <div className={GetContainerStyle("vertical")}>
+    <div className={GetContainerStyle("page")}>
       <h1 className={GetTextStyle("title")}>Sabaudia Ranking ! </h1>
       <button className={GetButtonStyle()} onClick={GoToScoringPage}>
         Ajouter un score

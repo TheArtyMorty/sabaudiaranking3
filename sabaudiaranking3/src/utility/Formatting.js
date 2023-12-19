@@ -20,9 +20,9 @@ export const GetTextStyle = (style) => {
 export const GetContainerStyle = (style) => {
   switch (style.toLocaleLowerCase()) {
     case "main":
-      return "bg-blue-300 flex flex-col h-screen w-screen";
+      return "bg-blue-300 flex justify-center flex-col h-screen w-screen";
     case "page":
-      return "flex flex-col content-start h-5/6";
+      return "flex flex-col m-3 text-center";
     case "scrolllist":
       return "flex flex-col bg-white m-1 divide-y overflow-y-scroll flex-1 space-y-1";
     case "horizontal":
