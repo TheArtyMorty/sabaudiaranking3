@@ -41,7 +41,7 @@ const Ranking = () => {
           <div
             className={GetContainerStyle("listitem")}
             key={index}
-            onTouchEnd={() => navigate("/sabaudiaranking3/player/" + p.ID)}
+            onTouchEnd={() => navigate("/sabaudiaranking3/player/" + p.Key)}
           >
             <h1 className={GetTextStyle("bold")}>#{p.Rank} -</h1>
             <h1 className={GetTextStyle("default")}>

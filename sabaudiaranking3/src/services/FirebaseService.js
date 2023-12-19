@@ -1,9 +1,9 @@
 import { ref, set, child, push, update, onValue } from "firebase/database";
 import { db } from "../firebaseConfig.js";
 import Globals from "../utility/Globals.js";
-import { defaultPlayer } from "../utility/PlayerUtility.js";
 
 export const addPlayer = (lastName, firstName, pseudo) => {
+  console.log(Globals.ClubName + "/players");
   const newItemKey = push(child(ref(db), Globals.ClubName + "/players")).key;
   const itemData = {
     LastName: lastName,
@@ -68,7 +68,7 @@ export const GetPlayerListFromDB = (setPlayerList) => {
         FirstName: player.FirstName,
         LastName: player.LastName,
         MMR: player.MMR,
-        ID: player.Key,
+        Key: player.Key,
         Pseudo: player.Pseudo,
         Rank: 0,
       });
@@ -86,7 +86,7 @@ export const GetPlayerFromDB = (playerID, setPlayer) => {
       newData.push({
         FirstName: player.FirstName,
         LastName: player.LastName,
-        ID: player.Key,
+        Key: player.Key,
         MMR: player.MMR,
         Pseudo: player.Pseudo,
         Rank: 0,
@@ -100,7 +100,7 @@ export const GetPlayerFromDB = (playerID, setPlayer) => {
         newPlayer.Rank = index + 1;
         return newPlayer;
       })
-      .find((p) => p.ID == playerID);
+      .find((p) => p.Key == playerID);
 
     setPlayer(actualPlayer);
   });

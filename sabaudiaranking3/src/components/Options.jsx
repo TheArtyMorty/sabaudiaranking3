@@ -15,6 +15,7 @@ import {
 import {
   getPlayer,
   getTheme,
+  storeAdmin,
   storeClub,
   storePlayer,
   storeTheme,
@@ -30,7 +31,7 @@ function OptionsScreen({ logout, refresh }) {
   const [dbInitialized, setDBInitialized] = useState(false);
   const [playerList, setPlayerList] = useState([]);
   const [player, setPlayer] = useState({
-    value: defaultPlayer.ID,
+    value: defaultPlayer.Key,
     label: defaultPlayer.Pseudo,
   });
 
@@ -47,20 +48,25 @@ function OptionsScreen({ logout, refresh }) {
 
   if (playerList.length > 0 && player.value == "") {
     const myID = getPlayer();
-    if (myID != undefined) {
+    if (
+      myID != undefined &&
+      playerList.find((p) => p.Key == myID) != undefined
+    ) {
       setPlayer({
         value: myID,
-        label: playerList.find((p) => p.ID == myID).Pseudo,
+        label: playerList.find((p) => p.Key == myID).Pseudo,
       });
     }
   }
 
   const GetPlayerList = () => {
-    return playerList
-      .sort((a, b) => a.Pseudo.localeCompare(b.Pseudo))
-      .map((p) => {
-        return { value: p.ID, label: p.Pseudo };
-      });
+    return (
+      playerList
+        //.sort((a, b) => a.Pseudo.localeCompare(b.Pseudo))
+        .map((p) => {
+          return { value: p.Key, label: p.Pseudo };
+        })
+    );
   };
 
   const GetThemes = () => {
@@ -90,7 +96,11 @@ function OptionsScreen({ logout, refresh }) {
           onClick: () => {
             // logout
             Globals.ClubName = "";
+            Globals.Admin = "";
+            Globals.Player = "";
             storeClub("");
+            storeAdmin("false");
+            storePlayer("");
             logout();
             navigate("/sabaudiaranking3/");
           },
@@ -112,8 +122,6 @@ function OptionsScreen({ logout, refresh }) {
     };
 
     confirmAlert(options);
-
-    console.log(Globals);
   };
 
   return (
@@ -124,6 +132,14 @@ function OptionsScreen({ logout, refresh }) {
         <h1 className={GetTextStyle("")}>
           Vous êtes connecté au club {Globals.ClubName}.
         </h1>
+        {Globals.Admin == "true" && (
+          <button
+            className={GetButtonStyle()}
+            onClick={() => navigate("/sabaudiaranking3/addPlayer/")}
+          >
+            Ajouter un joueur
+          </button>
+        )}
         <button className={GetButtonStyle()} onClick={Disconnect}>
           Se déconnecter
         </button>
@@ -140,6 +156,7 @@ function OptionsScreen({ logout, refresh }) {
           onChange={(e) => {
             setPlayer(e.value);
             storePlayer(e.value);
+            Globals.Player = e.value;
           }}
           options={GetPlayerList()}
         ></Select>

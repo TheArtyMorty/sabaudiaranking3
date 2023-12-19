@@ -56,7 +56,7 @@ export const GetContainerStyle = (style) => {
         getBackgroundColor() + " flex justify-center flex-col h-screen w-screen"
       );
     case "page":
-      return "flex flex-col m-3 text-center items-top";
+      return "flex flex-col m-3";
     case "scrolllist":
       return "flex flex-col bg-white content-start divide-y overflow-y-scroll space-y-1";
     case "horizontal":

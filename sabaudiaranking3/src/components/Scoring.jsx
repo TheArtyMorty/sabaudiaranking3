@@ -60,6 +60,10 @@ const Scoring = () => {
   const getTeamNote = (p1, p2) => {
     const maxMmr = Math.max(p1.MMR, p2.MMR);
     const minMmr = Math.min(p1.MMR, p2.MMR);
+    console.log(p1);
+    console.log(p2);
+    console.log(maxMmr);
+    console.log(minMmr);
     return Math.round(
       (maxMmr - minMmr) / minMmr >= 0.4
         ? (maxMmr * 1.5 + minMmr) / 2.5
@@ -215,6 +219,7 @@ const Scoring = () => {
               b3
             );
             //Update mmr
+            console.log(player1);
             updatePlayerMMR(player1.Key, player1.MMR + mmr);
             updatePlayerMMR(player2.Key, player2.MMR + mmr);
             updatePlayerMMR(player3.Key, player3.MMR - mmr);
@@ -304,7 +309,7 @@ const Scoring = () => {
           <Select
             className={GetSelectStyle("player")}
             defaultValue={player1}
-            onChange={setPlayer1}
+            onChange={(p) => setPlayer1(p.value)}
             options={GetPlayerList()}
           ></Select>
         </div>
@@ -313,7 +318,7 @@ const Scoring = () => {
           <Select
             className={GetSelectStyle("player")}
             defaultValue={player2}
-            onChange={setPlayer2}
+            onChange={(p) => setPlayer2(p.value)}
             options={GetPlayerList()}
           ></Select>
         </div>
@@ -381,7 +386,7 @@ const Scoring = () => {
           <Select
             className={GetSelectStyle("player")}
             defaultValue={player3}
-            onChange={setPlayer3}
+            onChange={(p) => setPlayer3(p.value)}
             options={GetPlayerList()}
           ></Select>
         </div>
@@ -390,7 +395,7 @@ const Scoring = () => {
           <Select
             className={GetSelectStyle("player")}
             defaultValue={player4}
-            onChange={setPlayer4}
+            onChange={(p) => setPlayer4(p.value)}
             options={GetPlayerList()}
           ></Select>
         </div>

@@ -12,6 +12,7 @@ import Player from "./components/Player";
 import Game from "./components/Game";
 import Club from "./components/Club";
 import Options from "./components/Options";
+import AddPlayer from "./components/AddPlayer";
 import { ToastContainer } from "react-toastify";
 import { GetContainerStyle } from "./utility/Formatting";
 import { useState } from "react";
@@ -58,6 +59,7 @@ function App() {
           <Route path="/sabaudiaranking3/games/:gameID" element={<Game />} />
           <Route path="/sabaudiaranking3/classement" element={<Ranking />} />
           <Route path="/sabaudiaranking3/scoring" element={<Scoring />} />
+          <Route path="/sabaudiaranking3/addPlayer" element={<AddPlayer />} />
           <Route
             path="/sabaudiaranking3/club"
             element={<Club login={logIn} />}

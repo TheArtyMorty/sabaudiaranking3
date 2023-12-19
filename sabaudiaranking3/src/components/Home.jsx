@@ -4,6 +4,7 @@ import {
   GetContainerStyle,
   GetTextStyle,
 } from "../utility/Formatting";
+import Globals from "../utility/Globals";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -19,10 +20,19 @@ const Home = () => {
     e.preventDefault();
     navigate("/sabaudiaranking3/options");
   };
+  const GoToMyPage = (e) => {
+    e.preventDefault();
+    navigate("/sabaudiaranking3/player/" + Globals.Player);
+  };
 
   return (
     <div className={GetContainerStyle("page")}>
       <h1 className={GetTextStyle("title")}>Sabaudia Ranking ! </h1>
+      {Globals.Player != undefined && Globals.Player != "" && (
+        <button className={GetButtonStyle()} onClick={GoToMyPage}>
+          Ma page
+        </button>
+      )}
       <button className={GetButtonStyle()} onClick={GoToScoringPage}>
         Ajouter un score
       </button>

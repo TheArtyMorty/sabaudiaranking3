@@ -3,6 +3,6 @@ export const defaultPlayer = {
   LastName: "",
   MMR: 0,
   Pseudo: "...",
-  ID: "",
+  Key: "",
   Rank: 0,
 };
