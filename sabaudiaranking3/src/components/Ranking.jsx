@@ -53,19 +53,21 @@ const Ranking = () => {
   };
 
   return (
-    <div className={GetContainerStyle("page")}>
-      <h1 className={GetTextStyle("subtitle")}>Classement : </h1>
-      <div className={GetContainerStyle("horizontal") + " items-center"}>
-        <img src={searchLogo} className={GetImageStyle("icon")}></img>
-        <input
-          className={GetInputStyle("")}
-          type="text"
-          value={filter}
-          onChange={handleChange}
-          placeholder="..."
-        />
+    <div className="flex h-full flex-col ml-5 mr-5">
+      <div className="mb-5 mt-5">
+        <h1 className={GetTextStyle("subtitle")}>Classement : </h1>
+        <div className={GetContainerStyle("horizontal") + " items-center"}>
+          <img src={searchLogo} className={GetImageStyle("icon")}></img>
+          <input
+            className={GetInputStyle("")}
+            type="text"
+            value={filter}
+            onChange={handleChange}
+            placeholder="..."
+          />
+        </div>
       </div>
-      <div className={GetContainerStyle("scrolllist") + " max-h-36"}>
+      <div className="mb-5 overflow-hidden overflow-y-scroll">
         {GetPlayerList()}
       </div>
     </div>

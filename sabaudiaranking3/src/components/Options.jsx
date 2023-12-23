@@ -152,14 +152,14 @@ function OptionsScreen({ logout, refresh }) {
 
         <Select
           className={GetSelectStyle("player")}
-          defaultValue={player}
+          value={player}
           onChange={(e) => {
-            setPlayer(e.value);
+            setPlayer(e);
             storePlayer(e.value);
             Globals.Player = e.value;
           }}
           options={GetPlayerList()}
-        ></Select>
+        />
       </div>
 
       <div className={GetContainerStyle("subcontainer")}>
@@ -174,7 +174,7 @@ function OptionsScreen({ logout, refresh }) {
               ChangeAppTheme(e.value);
             }}
             options={GetThemes()}
-          ></Select>
+          />
         </div>
       </div>
 
