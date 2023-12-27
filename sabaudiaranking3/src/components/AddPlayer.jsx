@@ -1,10 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import {
-  GetButtonStyle,
-  GetContainerStyle,
-  GetInputStyle,
-  GetTextStyle,
-} from "../utility/Formatting";
+import { GetThemeColor } from "../utility/Formatting";
 import { addPlayer } from "../services/FirebaseService";
 import { toast } from "react-toastify";
 import { useState } from "react";
@@ -24,19 +19,28 @@ const AddPlayer = () => {
   };
 
   return (
-    <div className={GetContainerStyle("page")}>
-      <div className={GetContainerStyle("horizontal")}>
-        <h1 className={GetTextStyle("")}>Pseudo : </h1>
+    <div className="flex h-full flex-col m-5 text-center">
+      <div className="flex flex-row self-center">
+        <h1 className="text-base font-bold self-center">Pseudo : </h1>
         <input
-          className={GetInputStyle("")}
+          className="h-8 m-2 text-base"
           type="text"
           value={pseudo}
           onChange={(e) => setPseudo(e.target.value)}
           placeholder="..."
         ></input>
       </div>
-      <button className={GetButtonStyle()} onClick={createPlayer}>
+      <button
+        className={GetThemeColor() + " text-base text-white m-5"}
+        onClick={createPlayer}
+      >
         Ajouter le joueur
+      </button>
+      <button
+        className={GetThemeColor() + " text-base text-white m-1 mb-5 mt-auto"}
+        onClick={() => navigate(-1)}
+      >
+        Retour
       </button>
     </div>
   );

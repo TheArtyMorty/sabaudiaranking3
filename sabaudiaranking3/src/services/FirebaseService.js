@@ -47,7 +47,7 @@ export const addScore = (
       Set2: { A: A2, B: B2 },
       Set3: { A: A3, B: B3 },
     },
-    Date: new Date().toLocaleString(),
+    Date: new Date().toUTCString(),
     Gain: mmrGain,
     Key: newItemKey,
   };

@@ -4,7 +4,8 @@ import {
   GetPlayerFromDB,
   GetPlayerHistoryFromDB,
 } from "../services/FirebaseService";
-import { GetContainerStyle, GetTextStyle } from "../utility/Formatting";
+import { GetThemeColor, GetThemeColor2 } from "../utility/Formatting";
+import { GetDateFromString } from "../utility/Utility";
 
 const Player = () => {
   const { playerID } = useParams();
@@ -27,18 +28,21 @@ const Player = () => {
 
   const GetPlayerGames = () => {
     return playerHistory
-      .sort((a, b) => a.Date - b.Date)
+      .sort((a, b) => GetDateFromString(b.Date) - GetDateFromString(a.Date))
       .map((g, index) => {
         return (
           <div
-            className={GetContainerStyle("listitem")}
+            className={GetThemeColor2() + " flex flex-row content-start"}
             key={index}
             onTouchEnd={() => navigate("/sabaudiaranking3/games/" + g.ID)}
           >
-            <h1 className={GetTextStyle("bold")}>
-              {g.IWasOnTeam == g.Victory ? "Victoire" : "Défaite"}
+            <h1 className="text-base italic">
+              {GetDateFromString(g.Date).toDateString() + " - "}
             </h1>
-            <h1 className={GetTextStyle("default")}>
+            <h1 className="text-base font-bold">
+              {g.IWasOnTeam == g.Victory ? " Victoire" : " Défaite"}
+            </h1>
+            <h1 className="text-base">
               {(g.IWasOnTeam == g.Victory ? " --> gagné " : " --> perdu ") +
                 (g.Gain != undefined ? g.Gain : " -?- ") +
                 " Pts"}
@@ -49,12 +53,12 @@ const Player = () => {
   };
 
   return (
-    <div className={GetContainerStyle("page")}>
-      <h1 className={GetTextStyle("bold")}>{player.Pseudo}</h1>
-      <h1 className={GetTextStyle("default")}>
+    <div className="flex h-full flex-col m-5 text-center">
+      <h1 className="text-base font-bold">{player.Pseudo}</h1>
+      <h1 className="text-base">
         Actuellement classé #{player.Rank} avec {player.MMR} points.
       </h1>
-      <h1 className={GetTextStyle("default")}>
+      <h1 className="text-base">
         Winrate :{" "}
         {Math.round(
           (playerHistory.filter((g) => g.IWasOnTeam == g.Victory).length /
@@ -67,8 +71,17 @@ const Player = () => {
         {playerHistory.length} {")"}.
       </h1>
 
-      <h1 className={GetTextStyle("default")}>Historique des parties</h1>
-      <div className={GetContainerStyle("scrolllist")}>{GetPlayerGames()}</div>
+      <h1 className="text-base">Historique des parties</h1>
+      <div className="mb-5 overflow-hidden overflow-y-scroll border-2 border-black space-y-1 bg-white">
+        {GetPlayerGames()}
+      </div>
+
+      <button
+        className={GetThemeColor() + " text-base text-white m-1 mt-auto"}
+        onClick={() => navigate(-1)}
+      >
+        Retour
+      </button>
     </div>
   );
 };

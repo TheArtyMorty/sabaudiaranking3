@@ -6,12 +6,7 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import Globals from "../utility/Globals.js";
 import { GetPlayerListFromDB } from "../services/FirebaseService.js";
-import {
-  GetButtonStyle,
-  GetContainerStyle,
-  GetSelectStyle,
-  GetTextStyle,
-} from "../utility/Formatting.js";
+import { GetThemeColor } from "../utility/Formatting.js";
 import {
   getPlayer,
   getTheme,
@@ -125,33 +120,36 @@ function OptionsScreen({ logout, refresh }) {
   };
 
   return (
-    <div className={GetContainerStyle("page")}>
-      <div className={GetContainerStyle("subcontainer")}>
-        <h1 className={GetTextStyle("bold")}>Options du Club</h1>
-        <h1 className={GetTextStyle("bold")}>-----------------</h1>
-        <h1 className={GetTextStyle("")}>
+    <div className="flex h-full flex-col m-5 text-center">
+      <div className="flex flex-col content-start bg-white bg-opacity-25 m-2 items-center">
+        <h1 className="text-lg font-bold mt-2">Options du Club</h1>
+        <h1 className="text-lg font-bold">-----------------</h1>
+        <h1 className="text-base">
           Vous êtes connecté au club {Globals.ClubName}.
         </h1>
         {Globals.Admin == "true" && (
           <button
-            className={GetButtonStyle()}
+            className={GetThemeColor() + " text-base text-white mt-2"}
             onClick={() => navigate("/sabaudiaranking3/addPlayer/")}
           >
             Ajouter un joueur
           </button>
         )}
-        <button className={GetButtonStyle()} onClick={Disconnect}>
+        <button
+          className={GetThemeColor() + " text-base text-white mt-2 mb-2"}
+          onClick={Disconnect}
+        >
           Se déconnecter
         </button>
       </div>
 
-      <div className={GetContainerStyle("subcontainer")}>
-        <h1 className={GetTextStyle("bold")}>Options du joueur</h1>
-        <h1 className={GetTextStyle("bold")}>-----------------</h1>
-        <h1 className={GetTextStyle("")}>Qui êtes vous ?</h1>
+      <div className="flex flex-col content-start bg-white bg-opacity-25 m-2 items-center">
+        <h1 className="text-lg font-bold mt-2">Options du joueur</h1>
+        <h1 className="text-lg font-bold">-----------------</h1>
+        <h1 className="text-base">Qui êtes vous ?</h1>
 
         <Select
-          className={GetSelectStyle("player")}
+          className="flex-1 text-base w-52 mt-2 mb-5"
           value={player}
           onChange={(e) => {
             setPlayer(e);
@@ -162,23 +160,24 @@ function OptionsScreen({ logout, refresh }) {
         />
       </div>
 
-      <div className={GetContainerStyle("subcontainer")}>
-        <h1 className={GetTextStyle("bold")}>Options d'interface</h1>
-        <h1 className={GetTextStyle("bold")}>-----------------</h1>
-        <h1 className={GetTextStyle("")}>Theme graphique :</h1>
-        <div className={GetContainerStyle("horizontal")}>
-          <Select
-            className={GetSelectStyle("player")}
-            defaultValue={theme}
-            onChange={(e) => {
-              ChangeAppTheme(e.value);
-            }}
-            options={GetThemes()}
-          />
-        </div>
+      <div className="flex flex-col content-start bg-white bg-opacity-25 m-2 items-center">
+        <h1 className="text-lg font-bold mt-2">{"Options d'interface"}</h1>
+        <h1 className="text-lg font-bold">-----------------</h1>
+        <h1 className="text-base">Theme graphique :</h1>
+        <Select
+          className="flex-1 text-base w-52 mt-2 mb-5"
+          defaultValue={theme}
+          onChange={(e) => {
+            ChangeAppTheme(e.value);
+          }}
+          options={GetThemes()}
+        />
       </div>
 
-      <button className={GetButtonStyle()} onClick={() => navigate(-1)}>
+      <button
+        className={GetThemeColor() + " text-base text-white m-1 mt-auto"}
+        onClick={() => navigate(-1)}
+      >
         Retour
       </button>
     </div>

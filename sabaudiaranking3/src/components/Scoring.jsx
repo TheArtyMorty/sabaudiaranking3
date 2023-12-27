@@ -5,13 +5,7 @@ import {
   addScore,
   updatePlayerMMR,
 } from "../services/FirebaseService";
-import {
-  GetButtonStyle,
-  GetContainerStyle,
-  GetInputStyle,
-  GetSelectStyle,
-  GetTextStyle,
-} from "../utility/Formatting";
+import { GetThemeColor } from "../utility/Formatting";
 import { toast } from "react-toastify";
 import Select from "react-select";
 import { defaultPlayer } from "../utility/PlayerUtility";
@@ -60,10 +54,6 @@ const Scoring = () => {
   const getTeamNote = (p1, p2) => {
     const maxMmr = Math.max(p1.MMR, p2.MMR);
     const minMmr = Math.min(p1.MMR, p2.MMR);
-    console.log(p1);
-    console.log(p2);
-    console.log(maxMmr);
-    console.log(minMmr);
     return Math.round(
       (maxMmr - minMmr) / minMmr >= 0.4
         ? (maxMmr * 1.5 + minMmr) / 2.5
@@ -77,8 +67,9 @@ const Scoring = () => {
     player3,
     player4,
     twosets,
-    ptsWinner,
-    ptsLooser
+    ptsA,
+    ptsB,
+    winner
   ) => {
     //Notes
     const noteA = getTeamNote(player1, player2);
@@ -90,13 +81,26 @@ const Scoring = () => {
     //proba win
     const probaWl = Math.max(0.1, 0.5 - ecart);
     const probaWt = Math.min(0.9, 0.5 + ecart);
+    // proba finale
+    const proba =
+      winner == "A"
+        ? noteA > noteB
+          ? probaWl
+          : probaWt
+        : noteA > noteB
+        ? probaWt
+        : probaWl;
     //gain
-    const gain = Math.max(30 * (noteA > noteB ? probaWt : probaWl), 1);
+    const gain = Math.max(30 * proba, 1);
     // bonuses
-    const bonus2sets = twosets ? 5 * (noteA > noteB ? probaWl : probaWt) : 0;
+    const bonus2sets = twosets ? 5 * proba : 0;
     const bonusPts =
-      Math.min(Math.floor((ptsWinner - ptsLooser) / ptsLooser / 0.05), 5) *
-      (noteA > noteB ? probaWl : probaWt);
+      Math.min(
+        Math.floor(
+          (winner == "A" ? (ptsA - ptsB) / ptsB : (ptsB - ptsA) / ptsA) / 0.05
+        ),
+        5
+      ) * proba;
     /*console.log("------");
     console.log(noteA);
     console.log(noteB);
@@ -175,8 +179,9 @@ const Scoring = () => {
       player3,
       player4,
       v1 == v2,
-      winner == "A" ? scoreA : scoreB,
-      winner == "A" ? scoreB : scoreA
+      scoreA,
+      scoreB,
+      winner
     );
     const mmr = winner == "A" ? mmrGain : -mmrGain;
 
@@ -219,7 +224,6 @@ const Scoring = () => {
               b3
             );
             //Update mmr
-            console.log(player1);
             updatePlayerMMR(player1.Key, player1.MMR + mmr);
             updatePlayerMMR(player2.Key, player2.MMR + mmr);
             updatePlayerMMR(player3.Key, player3.MMR - mmr);
@@ -301,22 +305,22 @@ const Scoring = () => {
   };
 
   return (
-    <div className={GetContainerStyle("page")}>
-      <div className={GetContainerStyle("subcontainer")}>
-        <h1 className={GetTextStyle("bold")}>Equipe A</h1>
-        <div className={GetContainerStyle("horizontal")}>
-          <h1 className={GetTextStyle("")}>Joueur 1 : </h1>
+    <div className="flex h-full flex-col ml-5 mr-5">
+      <div className="flex flex-col content-start bg-white bg-opacity-25 mt-5 items-center">
+        <h1 className="text-base font-bold m-2">Equipe A</h1>
+        <div className="flex flex-row content-start mb-2">
+          <h1 className="text-base self-center mr-2">Joueur 1 : </h1>
           <Select
-            className={GetSelectStyle("player")}
+            className="flex-1 text-base w-52"
             defaultValue={player1}
             onChange={(p) => setPlayer1(p.value)}
             options={GetPlayerList()}
           ></Select>
         </div>
-        <div className={GetContainerStyle("horizontal")}>
-          <h1 className={GetTextStyle("")}>Joueur 2 : </h1>
+        <div className="flex flex-row content-start mb-2">
+          <h1 className="text-base self-center mr-2">Joueur 2 : </h1>
           <Select
-            className={GetSelectStyle("player")}
+            className="flex-1 text-base  w-52"
             defaultValue={player2}
             onChange={(p) => setPlayer2(p.value)}
             options={GetPlayerList()}
@@ -324,10 +328,10 @@ const Scoring = () => {
         </div>
       </div>
 
-      <div className={GetContainerStyle("subcontainer")}>
-        <div className={GetContainerStyle("horizontal")}>
+      <div className="flex flex-col content-start bg-white bg-opacity-25 mt-5 items-center">
+        <div className="flex flex-row content-start">
           <input
-            className={GetInputStyle("score") + " w-8"}
+            className="h-8 m-2 text-base w-8 font-bold text-center"
             type="text"
             maxLength={2}
             value={A1}
@@ -335,7 +339,7 @@ const Scoring = () => {
             placeholder="..."
           ></input>
           <input
-            className={GetInputStyle("score")}
+            className="h-8 m-2 text-base w-8 font-bold text-center"
             type="text"
             maxLength={2}
             value={A2}
@@ -343,7 +347,7 @@ const Scoring = () => {
             placeholder="..."
           ></input>
           <input
-            className={GetInputStyle("score")}
+            className="h-8 m-2 text-base w-8 font-bold text-center"
             type="text"
             maxLength={2}
             value={A3}
@@ -351,9 +355,9 @@ const Scoring = () => {
             placeholder="..."
           ></input>
         </div>
-        <div className={GetContainerStyle("horizontal")}>
+        <div className="flex flex-row content-start">
           <input
-            className={GetInputStyle("score")}
+            className="h-8 m-2 text-base w-8 font-bold text-center"
             type="text"
             maxLength={2}
             value={B1}
@@ -361,7 +365,7 @@ const Scoring = () => {
             placeholder="..."
           ></input>
           <input
-            className={GetInputStyle("score")}
+            className="h-8 m-2 text-base w-8 font-bold text-center"
             type="text"
             maxLength={2}
             value={B2}
@@ -369,7 +373,7 @@ const Scoring = () => {
             placeholder="..."
           ></input>
           <input
-            className={GetInputStyle("score")}
+            className="h-8 m-2 text-base w-8 font-bold text-center"
             type="text"
             maxLength={2}
             value={B3}
@@ -379,21 +383,21 @@ const Scoring = () => {
         </div>
       </div>
 
-      <div className={GetContainerStyle("subcontainer")}>
-        <h1 className={GetTextStyle("bold")}>Equipe B</h1>
-        <div className={GetContainerStyle("horizontal")}>
-          <h1 className={GetTextStyle("")}>Joueur 1 : </h1>
+      <div className="flex flex-col content-start bg-white bg-opacity-25 mt-5 mb-5 items-center">
+        <h1 className="text-base font-bold m-2">Equipe B</h1>
+        <div className="flex flex-row content-start mb-2">
+          <h1 className="text-base self-center mr-2">Joueur 1 : </h1>
           <Select
-            className={GetSelectStyle("player")}
+            className="flex-1 text-base  w-52"
             defaultValue={player3}
             onChange={(p) => setPlayer3(p.value)}
             options={GetPlayerList()}
           ></Select>
         </div>
-        <div className={GetContainerStyle("horizontal")}>
-          <h1 className={GetTextStyle("")}>Joueur 2 : </h1>
+        <div className="flex flex-row content-start mb-2">
+          <h1 className="text-base self-center mr-2">Joueur 2 : </h1>
           <Select
-            className={GetSelectStyle("player")}
+            className="flex-1 text-base  w-52"
             defaultValue={player4}
             onChange={(p) => setPlayer4(p.value)}
             options={GetPlayerList()}
@@ -401,8 +405,18 @@ const Scoring = () => {
         </div>
       </div>
 
-      <button className={GetButtonStyle()} onClick={validateGame}>
+      <button
+        className={GetThemeColor() + " text-base text-white m-1"}
+        onClick={validateGame}
+      >
         Valider la partie
+      </button>
+
+      <button
+        className={GetThemeColor() + " text-base text-white m-1 mb-5 mt-auto"}
+        onClick={() => navigate(-1)}
+      >
+        Retour
       </button>
     </div>
   );

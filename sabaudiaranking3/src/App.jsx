@@ -14,7 +14,7 @@ import Club from "./components/Club";
 import Options from "./components/Options";
 import AddPlayer from "./components/AddPlayer";
 import { ToastContainer } from "react-toastify";
-import { GetContainerStyle } from "./utility/Formatting";
+import { GetBackgroundColor } from "./utility/Formatting";
 import { useState } from "react";
 import { getAdmin, getClub, getPlayer, getTheme } from "./utility/LocalService";
 import Globals from "./utility/Globals";
@@ -48,7 +48,12 @@ function App() {
   };
 
   return (
-    <div id="root" className={GetContainerStyle("main")}>
+    <div
+      id="root"
+      className={
+        GetBackgroundColor() + " flex justify-center flex-col h-screen w-screen"
+      }
+    >
       <Router>
         <Routes>
           <Route path="/sabaudiaranking3" element={getLoadingPage()} />

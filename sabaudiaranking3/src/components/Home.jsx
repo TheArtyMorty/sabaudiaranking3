@@ -1,10 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import {
-  GetButtonStyle,
-  GetContainerStyle,
-  GetTextStyle,
-} from "../utility/Formatting";
+import { GetThemeColor } from "../utility/Formatting";
 import Globals from "../utility/Globals";
+import logo from "../assets/icon.png";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -26,20 +23,33 @@ const Home = () => {
   };
 
   return (
-    <div className={GetContainerStyle("page")}>
-      <h1 className={GetTextStyle("title")}>Sabaudia Ranking ! </h1>
+    <div className="flex h-full flex-col m-5 text-center">
+      <h1 className="text-xl font-bold">Sabaudia Ranking ! </h1>
+      <img src={logo} className=" h-36 w-36 m-5 mb-10 self-center"></img>
       {Globals.Player != undefined && Globals.Player != "" && (
-        <button className={GetButtonStyle()} onClick={GoToMyPage}>
+        <button
+          className={GetThemeColor() + " text-base text-white m-1 mb-5"}
+          onClick={GoToMyPage}
+        >
           Ma page
         </button>
       )}
-      <button className={GetButtonStyle()} onClick={GoToScoringPage}>
+      <button
+        className={GetThemeColor() + " text-base text-white m-1 mb-5"}
+        onClick={GoToScoringPage}
+      >
         Ajouter un score
       </button>
-      <button className={GetButtonStyle()} onClick={GoToRankingPage}>
+      <button
+        className={GetThemeColor() + " text-base text-white m-1 mb-5"}
+        onClick={GoToRankingPage}
+      >
         Classement
       </button>
-      <button className={GetButtonStyle()} onClick={GoToOptionsPage}>
+      <button
+        className={GetThemeColor() + " text-base text-white m-1 mb-5"}
+        onClick={GoToOptionsPage}
+      >
         Options
       </button>
     </div>
