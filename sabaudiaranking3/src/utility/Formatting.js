@@ -1,31 +1,31 @@
 import Globals from "./Globals";
 
 export const GetBackgroundColor = () => {
-	switch (Globals.Theme) {
-		case "Orange":
-			return "bg-orange-200";
-		case "Bleu":
-		default:
-			return "bg-sky-200";
-	}
+  switch (Globals.Theme) {
+    case "Dark":
+      return "bg-red-900 ";
+    case "Light":
+    default:
+      return "bg-white ";
+  }
 };
 
-export const GetThemeColor = () => {
-	switch (Globals.Theme) {
-		case "Orange":
-			return "bg-orange-700 text-orange-100 uppercase font-bold";
-		case "Bleu":
-		default:
-			return "bg-sky-700 text-sky-100 uppercase font-bold shadow-lg shadow-sky-500/50";
-	}
+export const GetButtonTheme = () => {
+  switch (Globals.Theme) {
+    case "Dark":
+      return "bg-white text-red-800 uppercase font-bold shadow-lg shadow-red-500/50";
+    case "Light":
+    default:
+      return "bg-red-800 text-white uppercase font-bold shadow-lg shadow-red-500/50";
+  }
 };
 
 export const GetThemeColor2 = () => {
-	switch (Globals.Theme) {
-		case "Orange":
-			return "bg-orange-300 ";
-		case "Bleu":
-		default:
-			return "bg-sky-300 ";
-	}
+  switch (Globals.Theme) {
+    case "Dark":
+      return "bg-red-800 bg-opacity-50 ";
+    case "Light":
+    default:
+      return "bg-red-800 bg-opacity-25 ";
+  }
 };

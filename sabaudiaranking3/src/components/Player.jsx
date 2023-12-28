@@ -4,8 +4,9 @@ import {
   GetPlayerFromDB,
   GetPlayerHistoryFromDB,
 } from "../services/FirebaseService";
-import { GetThemeColor, GetThemeColor2 } from "../utility/Formatting";
+import { GetButtonTheme, GetThemeColor2 } from "../utility/Formatting";
 import { GetDateFromString } from "../utility/Utility";
+import Globals from "../utility/Globals";
 
 const Player = () => {
   const { playerID } = useParams();
@@ -53,8 +54,13 @@ const Player = () => {
   };
 
   return (
-    <div className="flex h-full flex-col m-5 text-center">
-      <h1 className="text-base font-bold">{player.Pseudo}</h1>
+    <div
+      className={
+        (Globals.Theme == "Dark" ? "text-white " : "text-red-800 ") +
+        "flex h-full flex-col ml-5 mr-5 text-center"
+      }
+    >
+      <h1 className="text-base font-bold mt-5">{player.Pseudo}</h1>
       <h1 className="text-base">
         Actuellement classé #{player.Rank} avec {player.MMR} points.
       </h1>
@@ -77,7 +83,7 @@ const Player = () => {
       </div>
 
       <button
-        className={GetThemeColor() + " text-base text-white m-1 mt-auto"}
+        className={GetButtonTheme() + " m-1 mb-5 mt-auto"}
         onClick={() => navigate(-1)}
       >
         Retour
