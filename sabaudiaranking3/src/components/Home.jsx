@@ -29,8 +29,8 @@ const Home = ({ setTransitionDirection }) => {
 
 	return (
 		<div className="flex h-full flex-col p-5 text-center justify-center">
-			<h1 className="text-xl text-cyan-800">Bienvenue sur</h1>
-			<h1 className="title-xl font-bold text-cyan-800 mb-10">
+			<h1 className="text-xl text-sky-800">Bienvenue sur</h1>
+			<h1 className="title-xl font-bold text-sky-800 mb-10">
 				Sabaudia Ranking
 			</h1>
 			<img

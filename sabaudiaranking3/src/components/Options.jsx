@@ -128,7 +128,7 @@ function OptionsScreen({ logout, refresh, setTransitionDirection }) {
 		<div className="flex h-full flex-col p-5 text-center">
 			<div className="flex flex-col content-start bg-white bg-opacity-25 m-2 items-center">
 				<h1 className="text-lg font-bold mt-2">Options du Club</h1>
-				<div className="h-0.5 m-2 w-9/12 bg-cyan-800" />
+				<div className="h-0.5 m-2 w-9/12 bg-sky-800" />
 				<h1 className="text-base">
 					Vous êtes connecté au club {Globals.ClubName}.
 				</h1>
@@ -150,7 +150,7 @@ function OptionsScreen({ logout, refresh, setTransitionDirection }) {
 
 			<div className="flex flex-col content-start bg-white bg-opacity-25 m-2 items-center">
 				<h1 className="text-lg font-bold mt-2">Options du joueur</h1>
-				<div className="h-0.5 m-2 w-9/12 bg-cyan-800" />
+				<div className="h-0.5 m-2 w-9/12 bg-sky-800" />
 				<h1 className="text-base">Qui êtes vous ?</h1>
 
 				<Select
@@ -167,7 +167,7 @@ function OptionsScreen({ logout, refresh, setTransitionDirection }) {
 
 			<div className="flex flex-col content-start bg-white bg-opacity-25 m-2 items-center">
 				<h1 className="text-lg font-bold mt-2">{"Options d'interface"}</h1>
-				<div className="h-0.5 m-2 w-9/12 bg-cyan-800" />
+				<div className="h-0.5 m-2 w-9/12 bg-sky-800" />
 				<h1 className="text-base">Theme graphique :</h1>
 				<Select
 					className="flex-1 text-base w-52 mt-2 mb-5"
