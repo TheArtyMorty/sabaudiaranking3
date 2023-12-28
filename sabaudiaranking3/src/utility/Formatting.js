@@ -1,31 +1,31 @@
 import Globals from "./Globals";
 
 export const GetBackgroundColor = () => {
-  switch (Globals.Theme) {
-    case "Orange":
-      return "bg-orange-300";
-    case "Bleu":
-    default:
-      return "bg-blue-300";
-  }
+	switch (Globals.Theme) {
+		case "Orange":
+			return "bg-orange-300";
+		case "Bleu":
+		default:
+			return "bg-cyan-300";
+	}
 };
 
 export const GetThemeColor = () => {
-  switch (Globals.Theme) {
-    case "Orange":
-      return "bg-orange-700";
-    case "Bleu":
-    default:
-      return "bg-blue-700";
-  }
+	switch (Globals.Theme) {
+		case "Orange":
+			return "bg-orange-700 text-orange-100 uppercase font-bold";
+		case "Bleu":
+		default:
+			return "bg-cyan-700 text-cyan-100 uppercase font-bold";
+	}
 };
 
 export const GetThemeColor2 = () => {
-  switch (Globals.Theme) {
-    case "Orange":
-      return "bg-orange-200 ";
-    case "Bleu":
-    default:
-      return "bg-blue-200 ";
-  }
+	switch (Globals.Theme) {
+		case "Orange":
+			return "bg-orange-300 ";
+		case "Bleu":
+		default:
+			return "bg-cyan-300 ";
+	}
 };
