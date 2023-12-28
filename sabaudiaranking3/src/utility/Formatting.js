@@ -16,7 +16,7 @@ export const GetThemeColor = () => {
 			return "bg-orange-700 text-orange-100 uppercase font-bold";
 		case "Bleu":
 		default:
-			return "bg-cyan-700 text-cyan-100 uppercase font-bold";
+			return "bg-cyan-700 text-cyan-100 uppercase font-bold shadow-lg shadow-cyan-500/50";
 	}
 };
 

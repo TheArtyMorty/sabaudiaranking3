@@ -17,7 +17,7 @@ import {
 } from "../utility/LocalService.js";
 import { useNavigate } from "react-router-dom";
 
-function OptionsScreen({ logout, refresh }) {
+function OptionsScreen({ logout, refresh, setTransitionDirection }) {
 	const navigate = useNavigate();
 	const [theme, setTheme] = useState({
 		value: "Bleu",
@@ -119,8 +119,13 @@ function OptionsScreen({ logout, refresh }) {
 		confirmAlert(options);
 	};
 
+	const handleGetBackClick = () => {
+		setTransitionDirection("left-to-right");
+		navigate(-1);
+	};
+
 	return (
-		<div className="flex h-full flex-col m-5 text-center">
+		<div className="flex h-full flex-col p-5 text-center">
 			<div className="flex flex-col content-start bg-white bg-opacity-25 m-2 items-center">
 				<h1 className="text-lg font-bold mt-2">Options du Club</h1>
 				<div className="h-0.5 m-2 w-9/12 bg-cyan-800" />
@@ -176,7 +181,7 @@ function OptionsScreen({ logout, refresh }) {
 
 			<button
 				className={GetThemeColor() + " text-base text-white m-1 mt-auto"}
-				onClick={() => navigate(-1)}
+				onClick={handleGetBackClick}
 			>
 				Retour
 			</button>
