@@ -320,7 +320,7 @@ const Scoring = () => {
         <div className="flex flex-row content-start mb-2">
           <h1 className="text-base self-center mr-2">Joueur 2 : </h1>
           <Select
-            className="flex-1 text-base  w-52"
+            className="flex-1 text-base w-52"
             defaultValue={player2}
             onChange={(p) => setPlayer2(p.value)}
             options={GetPlayerList()}
@@ -388,7 +388,7 @@ const Scoring = () => {
         <div className="flex flex-row content-start mb-2">
           <h1 className="text-base self-center mr-2">Joueur 1 : </h1>
           <Select
-            className="flex-1 text-base  w-52"
+            className="flex-1 text-base w-52"
             defaultValue={player3}
             onChange={(p) => setPlayer3(p.value)}
             options={GetPlayerList()}
@@ -397,7 +397,7 @@ const Scoring = () => {
         <div className="flex flex-row content-start mb-2">
           <h1 className="text-base self-center mr-2">Joueur 2 : </h1>
           <Select
-            className="flex-1 text-base  w-52"
+            className="flex-1 text-base w-52"
             defaultValue={player4}
             onChange={(p) => setPlayer4(p.value)}
             options={GetPlayerList()}
