@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { getClubsFromDB } from "../services/FirebaseService.js";
-import { GetThemeColor } from "../utility/Formatting.js";
+import { GetButtonTheme } from "../utility/Formatting.js";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import Globals from "../utility/Globals.js";
@@ -40,7 +40,7 @@ const Club = ({ login }) => {
         storeAdmin("false");
         storeClub(club.Name);
         Globals.ClubName = club.Name;
-        Globals.Admin = false;
+        Globals.Admin = "false";
         navigateBackTriggered = true;
         login();
         navigate("/sabaudiaranking3/");
@@ -49,7 +49,7 @@ const Club = ({ login }) => {
         storeAdmin("true");
         storeClub(club.Name);
         Globals.ClubName = club.Name;
-        Globals.Admin = true;
+        Globals.Admin = "true";
         navigateBackTriggered = true;
         login();
         navigate("/sabaudiaranking3/");
@@ -91,24 +91,29 @@ const Club = ({ login }) => {
   );*/
 
   return (
-    <div className="flex h-full flex-col m-5 text-center">
+    <div
+      className={
+        (Globals.Theme == "Dark" ? "text-white " : "text-red-800 ") +
+        "flex h-full flex-col p-5 text-center"
+      }
+    >
       <h1 className="text-lg font-bold">Choisissez votre club : </h1>
       <Select
-        className="text-base w-52 self-center mb-5"
+        className="text-base w-52 self-center mb-5 text-red-800"
         defaultValue={club}
         onChange={ChooseAClub}
         options={GetClubList()}
       ></Select>
       <h1 className="text-base font-bold italic">Mot de passe : </h1>
       <input
-        className="h-8 mb-5 text-base"
+        className="h-8 mb-5 text-base text-center caret-red-800  text-red-800 border-stone-300 border-2"
         type="text"
         value={pwd}
         onChange={ChangePwd}
         placeholder="password..."
       ></input>
       <button
-        className={GetThemeColor() + " text-base text-white m-1 mb-5"}
+        className={GetButtonTheme() + " m-1 mb-5"}
         onClick={NavigateBackIfClubValid}
       >
         Valider

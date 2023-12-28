@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { GetGameFromDB } from "../services/FirebaseService";
-import { GetThemeColor } from "../utility/Formatting";
+import { GetButtonTheme } from "../utility/Formatting";
 import { GetDateFromString } from "../utility/Utility";
+import Globals from "../utility/Globals";
 
-const Game = () => {
+const Game = ({ setTransitionDirection }) => {
   const { gameID } = useParams();
   const navigate = useNavigate();
   const [dbInitialized, setDBInitialized] = useState(false);
@@ -27,9 +28,24 @@ const Game = () => {
     setDBInitialized(true);
   }
 
+  const handleGetBackClick = () => {
+    setTransitionDirection("left-to-right");
+    navigate(-1);
+  };
+
   return (
-    <div className="flex h-full flex-col ml-5 mr-5">
-      <div className="flex flex-col content-start bg-white bg-opacity-25 mt-5 items-center">
+    <div
+      className={
+        (Globals.Theme == "Dark" ? "text-white " : "text-red-800 ") +
+        "flex h-full flex-col p-5 text-center"
+      }
+    >
+      <div
+        className={
+          (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
+          "flex flex-col content-start bg-opacity-25 m-2 items-center"
+        }
+      >
         <h1 className="text-base font-bold">Equipe A</h1>
         <div className="flex flex-row mb-2 mt-2">
           <h1 className="text-base mr-2">Joueur 1 : </h1>
@@ -49,8 +65,13 @@ const Game = () => {
         </div>
       </div>
 
-      <div className="flex flex-col content-start bg-white bg-opacity-25 mt-5 items-center">
-        <div className="flex flex-row">
+      <div
+        className={
+          (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
+          "flex flex-col content-start bg-opacity-25 m-2 items-center"
+        }
+      >
+        <div className="flex flex-row text-red-700">
           <h1 className="w-8 h-8 text-lg font-bold bg-white m-4 text-center">
             {game.Scores.Set1.A}
           </h1>
@@ -61,7 +82,7 @@ const Game = () => {
             {game.Scores.Set3.A}
           </h1>
         </div>
-        <div className="flex flex-row">
+        <div className="flex flex-row text-red-700">
           <h1 className="w-8 h-8 text-lg font-bold bg-white m-4 text-center">
             {game.Scores.Set1.B}
           </h1>
@@ -74,7 +95,12 @@ const Game = () => {
         </div>
       </div>
 
-      <div className="flex flex-col content-start bg-white bg-opacity-25 mt-5 items-center">
+      <div
+        className={
+          (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
+          "flex flex-col content-start bg-opacity-25 m-2 items-center"
+        }
+      >
         <h1 className="text-base font-bold">Equipe B</h1>
         <div className="flex flex-row mb-2 mt-2">
           <h1 className="text-base mr-2">Joueur 1 : </h1>
@@ -94,7 +120,12 @@ const Game = () => {
         </div>
       </div>
 
-      <div className="flex flex-col content-start bg-white bg-opacity-25 mt-5 items-center">
+      <div
+        className={
+          (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
+          "flex flex-col content-start bg-opacity-25 m-2 items-center"
+        }
+      >
         <h1 className="text-base font-bold">Résultat :</h1>
         <h1 className="text-base mb-1 mt-1">
           {GetDateFromString(game.Date).toLocaleString()}
@@ -109,8 +140,8 @@ const Game = () => {
       </div>
 
       <button
-        className={GetThemeColor() + " text-base text-white m-1 mb-5 mt-auto"}
-        onClick={() => navigate(-1)}
+        className={GetButtonTheme() + " m-1 mt-auto"}
+        onClick={handleGetBackClick}
       >
         Retour
       </button>

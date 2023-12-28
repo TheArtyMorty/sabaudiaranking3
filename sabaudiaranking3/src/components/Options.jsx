@@ -6,7 +6,7 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import Globals from "../utility/Globals.js";
 import { GetPlayerListFromDB } from "../services/FirebaseService.js";
-import { GetThemeColor } from "../utility/Formatting.js";
+import { GetButtonTheme } from "../utility/Formatting.js";
 import {
   getPlayer,
   getTheme,
@@ -17,11 +17,11 @@ import {
 } from "../utility/LocalService.js";
 import { useNavigate } from "react-router-dom";
 
-function OptionsScreen({ logout, refresh }) {
+function OptionsScreen({ logout, refresh, setTransitionDirection }) {
   const navigate = useNavigate();
   const [theme, setTheme] = useState({
-    value: "Bleu",
-    label: "Bleu",
+    value: "Light",
+    label: "Light",
   });
   const [dbInitialized, setDBInitialized] = useState(false);
   const [playerList, setPlayerList] = useState([]);
@@ -66,8 +66,8 @@ function OptionsScreen({ logout, refresh }) {
 
   const GetThemes = () => {
     return [
-      { value: "Bleu", label: "Bleu" },
-      { value: "Orange", label: "Orange" },
+      { value: "Light", label: "Light" },
+      { value: "Dark", label: "Dark" },
     ];
   };
 
@@ -119,37 +119,67 @@ function OptionsScreen({ logout, refresh }) {
     confirmAlert(options);
   };
 
+  const handleGetBackClick = () => {
+    setTransitionDirection("left-to-right");
+    navigate(-1);
+  };
+
   return (
-    <div className="flex h-full flex-col m-5 text-center">
-      <div className="flex flex-col content-start bg-white bg-opacity-25 m-2 items-center">
+    <div
+      className={
+        (Globals.Theme == "Dark" ? "text-white " : "text-red-800 ") +
+        "flex h-full flex-col p-5 text-center"
+      }
+    >
+      <div
+        className={
+          (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
+          "flex flex-col content-start bg-opacity-25 m-2 items-center"
+        }
+      >
         <h1 className="text-lg font-bold mt-2">Options du Club</h1>
-        <h1 className="text-lg font-bold">-----------------</h1>
+        <div
+          className={
+            (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
+            "h-0.5 m-2 w-9/12"
+          }
+        />
         <h1 className="text-base">
           Vous êtes connecté au club {Globals.ClubName}.
         </h1>
         {Globals.Admin == "true" && (
           <button
-            className={GetThemeColor() + " text-base text-white mt-2"}
+            className={GetButtonTheme() + " mt-2"}
             onClick={() => navigate("/sabaudiaranking3/addPlayer/")}
           >
             Ajouter un joueur
           </button>
         )}
         <button
-          className={GetThemeColor() + " text-base text-white mt-2 mb-2"}
+          className={GetButtonTheme() + " mt-2 mb-2"}
           onClick={Disconnect}
         >
           Se déconnecter
         </button>
       </div>
 
-      <div className="flex flex-col content-start bg-white bg-opacity-25 m-2 items-center">
+      <div
+        className={
+          (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
+          "flex flex-col content-start bg-opacity-25 m-2 items-center"
+        }
+      >
         <h1 className="text-lg font-bold mt-2">Options du joueur</h1>
-        <h1 className="text-lg font-bold">-----------------</h1>
+        <div
+          className={
+            (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
+            "h-0.5 m-2 w-9/12"
+          }
+        />
         <h1 className="text-base">Qui êtes vous ?</h1>
 
         <Select
-          className="flex-1 text-base w-52 mt-2 mb-5"
+          className="flex-1 text-base w-52 mt-2 mb-5 text-red-800"
           value={player}
           onChange={(e) => {
             setPlayer(e);
@@ -160,12 +190,22 @@ function OptionsScreen({ logout, refresh }) {
         />
       </div>
 
-      <div className="flex flex-col content-start bg-white bg-opacity-25 m-2 items-center">
+      <div
+        className={
+          (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
+          "flex flex-col content-start bg-opacity-25 m-2 items-center"
+        }
+      >
         <h1 className="text-lg font-bold mt-2">{"Options d'interface"}</h1>
-        <h1 className="text-lg font-bold">-----------------</h1>
+        <div
+          className={
+            (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
+            "h-0.5 m-2 w-9/12"
+          }
+        />
         <h1 className="text-base">Theme graphique :</h1>
         <Select
-          className="flex-1 text-base w-52 mt-2 mb-5"
+          className="flex-1 text-base w-52 mt-2 mb-5 text-red-800"
           defaultValue={theme}
           onChange={(e) => {
             ChangeAppTheme(e.value);
@@ -175,8 +215,8 @@ function OptionsScreen({ logout, refresh }) {
       </div>
 
       <button
-        className={GetThemeColor() + " text-base text-white m-1 mt-auto"}
-        onClick={() => navigate(-1)}
+        className={GetButtonTheme() + " m-1 mt-auto"}
+        onClick={handleGetBackClick}
       >
         Retour
       </button>

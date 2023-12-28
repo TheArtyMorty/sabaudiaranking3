@@ -3,7 +3,7 @@ import { defaultPlayer } from "./PlayerUtility";
 const Globals = {
   ClubName: "",
   Admin: false,
-  Theme: "Bleu",
+  Theme: "Light",
   Player: defaultPlayer,
 };
 export default Globals;

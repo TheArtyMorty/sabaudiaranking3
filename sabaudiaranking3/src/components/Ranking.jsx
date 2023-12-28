@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { GetPlayerListFromDB } from "../services/FirebaseService";
 import searchLogo from "../assets/IconSearch.png";
-import { GetThemeColor, GetThemeColor2 } from "../utility/Formatting";
+import { GetButtonTheme, GetThemeColor2 } from "../utility/Formatting";
 import { useNavigate } from "react-router-dom";
+import Globals from "../utility/Globals";
 
-const Ranking = () => {
+const Ranking = ({ setTransitionDirection }) => {
   const [dbInitialized, setDBInitialized] = useState(false);
   const [playerList, setPlayerList] = useState([]);
   const [filter, setFilter] = useState("");
@@ -47,14 +48,29 @@ const Ranking = () => {
       });
   };
 
+  const handleGetBackClick = () => {
+    setTransitionDirection("left-to-right");
+    navigate(-1);
+  };
+
   return (
-    <div className="flex h-full flex-col ml-5 mr-5">
+    <div
+      className={
+        (Globals.Theme == "Dark" ? "text-white " : "text-red-800 ") +
+        "flex h-full flex-col ml-5 mr-5 text-center"
+      }
+    >
       <div className="mb-2 mt-5 self-center text-center">
         <h1 className="text-lg font-bold">Classement : </h1>
         <div className="flex flex-row self-center">
-          <img src={searchLogo} className="h-8 w-8 m-2"></img>
+          <img
+            src={searchLogo}
+            className={
+              (Globals.Theme == "Dark" ? "" : "invert ") + "h-8 w-8 m-2"
+            }
+          ></img>
           <input
-            className="h-8 m-2 text-base"
+            className="h-8 m-2 text-base border-stone-300 border-2"
             type="text"
             value={filter}
             onChange={handleChange}
@@ -66,8 +82,8 @@ const Ranking = () => {
         {GetPlayerList()}
       </div>
       <button
-        className={GetThemeColor() + " text-base text-white m-1 mb-5 mt-auto"}
-        onClick={() => navigate(-1)}
+        className={GetButtonTheme() + " m-1 mb-5 mt-auto"}
+        onClick={handleGetBackClick}
       >
         Retour
       </button>
