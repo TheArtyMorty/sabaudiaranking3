@@ -27,6 +27,8 @@ const Home = ({ setTransitionDirection }) => {
     navigate("/sabaudiaranking3/player/" + Globals.Player);
   };
 
+  var isLogged = Globals.UserId != "";
+
   return (
     <div
       className={
@@ -43,29 +45,46 @@ const Home = ({ setTransitionDirection }) => {
           "h-36 w-36 m-5 self-center animate-bounce-slow"
         }
       ></img>
-      {Globals.Player != undefined && Globals.Player != "" && (
+      {Globals.Player != undefined && Globals.Player != "" && isLogged && (
         <button className={GetButtonTheme() + " m-1 mb-5"} onClick={GoToMyPage}>
           Ma page
         </button>
       )}
-      <button
-        className={GetButtonTheme() + " m-1 mb-5"}
-        onClick={GoToScoringPage}
-      >
-        Ajouter un score
-      </button>
-      <button
-        className={GetButtonTheme() + " m-1 mb-5"}
-        onClick={GoToRankingPage}
-      >
-        Classement
-      </button>
-      <button
-        className={GetButtonTheme() + " m-1 mb-5"}
-        onClick={GoToOptionsPage}
-      >
-        Options
-      </button>
+      {isLogged && (
+        <button
+          className={GetButtonTheme() + " m-1 mb-5"}
+          onClick={GoToScoringPage}
+        >
+          Ajouter un score
+        </button>
+      )}
+      {isLogged && (
+        <button
+          className={GetButtonTheme() + " m-1 mb-5"}
+          onClick={GoToRankingPage}
+        >
+          Classement
+        </button>
+      )}
+      {isLogged && (
+        <button
+          className={GetButtonTheme() + " m-1 mb-5"}
+          onClick={GoToOptionsPage}
+        >
+          Options
+        </button>
+      )}
+      {!isLogged && (
+        <button
+          className={GetButtonTheme() + " m-1 mb-5"}
+          onClick={() => {
+            setTransitionDirection("right-to-left");
+            navigate("/sabaudiaranking3/login");
+          }}
+        >
+          Connexion
+        </button>
+      )}
     </div>
   );
 };

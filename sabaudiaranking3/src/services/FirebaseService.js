@@ -3,7 +3,6 @@ import { db } from "../firebaseConfig.js";
 import Globals from "../utility/Globals.js";
 
 export const addPlayer = (lastName, firstName, pseudo) => {
-  console.log(Globals.ClubName + "/players");
   const newItemKey = push(child(ref(db), Globals.ClubName + "/players")).key;
   const itemData = {
     LastName: lastName,
@@ -16,6 +15,14 @@ export const addPlayer = (lastName, firstName, pseudo) => {
   updates[Globals.ClubName + "/players/" + newItemKey] = itemData;
 
   update(ref(db), updates);
+};
+
+export const addNewUser = (userId, club, playerKey) => {
+  const itemData = {
+    Club: club,
+    Key: playerKey,
+  };
+  set(ref(db, "users/" + userId + "/"), itemData);
 };
 
 export const updatePlayerMMR = (playerKey, newMMR) => {
@@ -74,6 +81,19 @@ export const GetPlayerListFromDB = (setPlayerList) => {
       });
     });
     setPlayerList(playerList);
+  });
+};
+
+export const GetUserFromDB = (userId, setClub, setPlayerKey) => {
+  const userRef = ref(db, "users/" + userId);
+  onValue(userRef, (snapshot) => {
+    const u = snapshot.val();
+    const user = {
+      Club: u.Club,
+      Key: u.Key,
+    };
+    setClub(user.Club);
+    setPlayerKey(user.Key);
   });
 };
 

@@ -2,59 +2,53 @@ import "./App.css";
 import "./App.css";
 
 import { useState } from "react";
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import AddPlayer from "./components/AddPlayer";
-import Club from "./components/Club";
 import Game from "./components/Game";
 import Home from "./components/Home";
 import Options from "./components/Options";
 import Player from "./components/Player";
 import Ranking from "./components/Ranking";
+import Login from "./components/Login";
 import Scoring from "./components/Scoring";
 import { GetBackgroundColor } from "./utility/Formatting";
 import Globals from "./utility/Globals";
-import { getAdmin, getClub, getPlayer, getTheme } from "./utility/LocalService";
+import { getTheme, getUid } from "./utility/LocalService";
+import { GetUserFromDB } from "./services/FirebaseService";
 
 function App({ refresh }) {
-  const club = getClub();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [needRefresh, setNeedRefresh] = useState(true);
   const [transitionDirection, setTransitionDirection] =
     useState("right-to-left");
   const location = useLocation();
 
-  if (club != undefined && club != "" && !isLoggedIn) {
-    setIsLoggedIn(true);
-  }
-
   if (needRefresh) {
-    Globals.ClubName = getClub();
-    Globals.Admin = getAdmin();
-    Globals.Player = getPlayer();
+    Globals.UserId = getUid();
+    if (
+      Globals.UserId != "" &&
+      Globals.UserId != undefined &&
+      Globals.UserId != null
+    ) {
+      GetUserFromDB(
+        Globals.UserId,
+        (c) => {
+          Globals.ClubName = c;
+        },
+        (k) => {
+          Globals.Player = k;
+        }
+      );
+    } else {
+      Globals.UserId = "";
+    }
+    Globals.Admin = false;
     Globals.Theme = getTheme();
     setNeedRefresh(false);
     refresh(true);
   }
-
-  const logIn = () => setIsLoggedIn(true);
-  const logOut = () => setIsLoggedIn(false);
-
-  const getLoadingPage = () => {
-    if (isLoggedIn) {
-      return <Home setTransitionDirection={setTransitionDirection} />;
-    } else {
-      return <Navigate to="/sabaudiaranking3/club" />;
-    }
-  };
 
   return (
     <TransitionGroup component={null}>
@@ -64,7 +58,10 @@ function App({ refresh }) {
         timeout={300}
       >
         <Routes location={location}>
-          <Route path="/sabaudiaranking3" element={getLoadingPage()} />
+          <Route
+            path="/sabaudiaranking3"
+            element={<Home setTransitionDirection={setTransitionDirection} />}
+          />
           <Route
             path="/sabaudiaranking3/player/:playerID"
             element={<Player />}
@@ -87,14 +84,18 @@ function App({ refresh }) {
           />
           <Route path="/sabaudiaranking3/addPlayer" element={<AddPlayer />} />
           <Route
-            path="/sabaudiaranking3/club"
-            element={<Club login={logIn} />}
-          />
-          <Route
             path="/sabaudiaranking3/options"
             element={
               <Options
-                logout={logOut}
+                refresh={setNeedRefresh}
+                setTransitionDirection={setTransitionDirection}
+              />
+            }
+          />
+          <Route
+            path="/sabaudiaranking3/login"
+            element={
+              <Login
                 refresh={setNeedRefresh}
                 setTransitionDirection={setTransitionDirection}
               />

@@ -10,6 +10,9 @@ export const storeClub = (value) => {
 export const storeAdmin = (value) => {
   storeKeyValue("Admin", value);
 };
+export const storeUid = (value) => {
+  storeKeyValue("uid", value);
+};
 
 export const getPlayer = () => {
   return getKeyValue("Player");
@@ -22,6 +25,9 @@ export const getClub = () => {
 };
 export const getAdmin = () => {
   return getKeyValue("Admin");
+};
+export const getUid = () => {
+  return getKeyValue("uid");
 };
 
 const storeKeyValue = (key, value) => {
