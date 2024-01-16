@@ -49,7 +49,9 @@ const Login = ({ refresh, setTransitionDirection }) => {
 
   const GetPlayerList = () => {
     return playerList
-      .filter((p) => p.UserId == undefined || p.UserId == null)
+      .filter(
+        (p) => p.UserId == undefined || p.UserId == null || p.UserId == "..."
+      )
       .sort((a, b) =>
         GetPseudoOrDefaultForPlayer(a).localeCompare(
           GetPseudoOrDefaultForPlayer(b)
