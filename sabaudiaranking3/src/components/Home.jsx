@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "../assets/icon.png";
 import { GetButtonTheme } from "../utility/Formatting";
 import Globals from "../utility/Globals";
+import { addPlayer } from "../services/FirebaseService";
 
 const Home = ({ setTransitionDirection }) => {
   const navigate = useNavigate();
@@ -28,6 +29,22 @@ const Home = ({ setTransitionDirection }) => {
   };
 
   var isLogged = Globals.UserId != "";
+
+  const DoSomething = () => {
+    var users = [
+      { first: "Luc", last: "M" },
+      { first: "Simon", last: "F" },
+      { first: "Nico", last: "F" },
+      { first: "J.C.", last: "G" },
+      { first: "Toto", last: "T" },
+      { first: "Plouf", last: "B" },
+      { first: "ABCDE", last: "F" },
+    ];
+    Globals.ClubName = "CDC-34";
+    for (const user of users) {
+      addPlayer(user.last, user.first, "");
+    }
+  };
 
   return (
     <div
@@ -83,6 +100,15 @@ const Home = ({ setTransitionDirection }) => {
           }}
         >
           Connexion
+        </button>
+      )}
+
+      {false && (
+        <button
+          className={GetButtonTheme() + " m-1 mb-5"}
+          onClick={DoSomething}
+        >
+          Do Something
         </button>
       )}
     </div>

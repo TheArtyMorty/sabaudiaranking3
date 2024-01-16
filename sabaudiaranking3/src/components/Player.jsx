@@ -3,10 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   GetPlayerFromDB,
   GetPlayerHistoryFromDB,
+  updatePlayerPseudo,
 } from "../services/FirebaseService";
 import { GetButtonTheme, GetThemeColor2 } from "../utility/Formatting";
 import { GetDateFromString } from "../utility/Utility";
 import Globals from "../utility/Globals";
+import { GetPseudoOrDefaultForPlayer } from "../utility/PlayerUtility";
+import edit from "../assets/IconEdit.png";
+import validate from "../assets/IconValidate.png";
 
 const Player = () => {
   const { playerID } = useParams();
@@ -18,6 +22,7 @@ const Player = () => {
     MMR: 1234,
     Pseudo: "...",
     Rank: 0,
+    Key: "...",
   });
   const [playerHistory, setplayerHistory] = useState([]);
 
@@ -53,6 +58,9 @@ const Player = () => {
       });
   };
 
+  const [editPseudo, setEditPseudo] = useState(false);
+  const [pseudo, setPseudo] = useState("");
+
   return (
     <div
       className={
@@ -60,7 +68,45 @@ const Player = () => {
         "flex h-full flex-col ml-5 mr-5 text-center"
       }
     >
-      <h1 className="text-base font-bold mt-5">{player.Pseudo}</h1>
+      <div className="flex flex-row justify-center mb-2">
+        {!editPseudo && (
+          <h1 className="text-base font-bold mt-5">
+            {GetPseudoOrDefaultForPlayer(player)}
+          </h1>
+        )}
+        {!editPseudo && (
+          <img
+            src={edit}
+            className="h-5 w-5 ml-1 mt-5 bg-slate-500"
+            onClick={() => setEditPseudo(true)}
+          ></img>
+        )}
+        {editPseudo && (
+          <input
+            className="text-base mt-4 border-2 border-black"
+            type="text"
+            label="pseudo"
+            value={pseudo}
+            onChange={(e) => {
+              setPseudo(e.target.value);
+              updatePlayerPseudo(player.Key, e.target.value);
+            }}
+            onBlur={() => {
+              setEditPseudo(false);
+            }}
+            required
+            placeholder="pseudo"
+          />
+        )}
+        {editPseudo && (
+          <img
+            src={validate}
+            className="h-5 w-5 ml-1 mt-5 bg-slate-500"
+            onClick={() => setEditPseudo(false)}
+          ></img>
+        )}
+      </div>
+
       <h1 className="text-base">
         Actuellement classé #{player.Rank} avec {player.MMR} points.
       </h1>

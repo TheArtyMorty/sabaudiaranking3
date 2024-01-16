@@ -17,16 +17,22 @@ export const addPlayer = (lastName, firstName, pseudo) => {
   update(ref(db), updates);
 };
 
-export const addNewUser = (userId, club, playerKey) => {
+export const addNewUser = (userId, club, playerKey, admin) => {
   const itemData = {
     Club: club,
     Key: playerKey,
+    Admin: admin,
   };
   set(ref(db, "users/" + userId + "/"), itemData);
+  set(ref(db, club + "/players/" + playerKey + "/UserId"), userId);
 };
 
 export const updatePlayerMMR = (playerKey, newMMR) => {
   set(ref(db, Globals.ClubName + "/players/" + playerKey + "/MMR"), newMMR);
+};
+
+export const updatePlayerPseudo = (playerKey, pseudo) => {
+  set(ref(db, Globals.ClubName + "/players/" + playerKey + "/Pseudo"), pseudo);
 };
 
 export const addScore = (
@@ -77,6 +83,7 @@ export const GetPlayerListFromDB = (setPlayerList) => {
         MMR: player.MMR,
         Key: player.Key,
         Pseudo: player.Pseudo,
+        UserId: player.UserId ?? "...",
         Rank: 0,
       });
     });
@@ -84,16 +91,18 @@ export const GetPlayerListFromDB = (setPlayerList) => {
   });
 };
 
-export const GetUserFromDB = (userId, setClub, setPlayerKey) => {
+export const GetUserFromDB = (userId, setClub, setPlayerKey, setAdmin) => {
   const userRef = ref(db, "users/" + userId);
   onValue(userRef, (snapshot) => {
     const u = snapshot.val();
     const user = {
       Club: u.Club,
       Key: u.Key,
+      Admin: u.Admin,
     };
     setClub(user.Club);
     setPlayerKey(user.Key);
+    setAdmin(user.Admin ?? false);
   });
 };
 
@@ -131,30 +140,32 @@ export const GetPlayerHistoryFromDB = (playerID, setPlayerHistory) => {
   onValue(gamesRef, (snapshot) => {
     const data = snapshot.val();
     let newData = [];
-    Object.values(data).forEach((game) => {
-      let newGame = {
-        Date: game.Date,
-        Victory: game.Victory,
-        Scores: game.Scores,
-        TeamA: game.TeamA,
-        TeamB: game.TeamB,
-        Gain: game.Gain,
-        IWasOnTeam: "None",
-        ID: game.Key,
-      };
-      if (
-        game.TeamA.player1.Key == playerID ||
-        game.TeamA.player2.Key == playerID
-      ) {
-        newGame.IWasOnTeam = "A";
-      } else if (
-        game.TeamB.player1.Key == playerID ||
-        game.TeamB.player2.Key == playerID
-      ) {
-        newGame.IWasOnTeam = "B";
-      }
-      newData.push(newGame);
-    });
+    if (data != null) {
+      Object.values(data).forEach((game) => {
+        let newGame = {
+          Date: game.Date,
+          Victory: game.Victory,
+          Scores: game.Scores,
+          TeamA: game.TeamA,
+          TeamB: game.TeamB,
+          Gain: game.Gain,
+          IWasOnTeam: "None",
+          ID: game.Key,
+        };
+        if (
+          game.TeamA.player1.Key == playerID ||
+          game.TeamA.player2.Key == playerID
+        ) {
+          newGame.IWasOnTeam = "A";
+        } else if (
+          game.TeamB.player1.Key == playerID ||
+          game.TeamB.player2.Key == playerID
+        ) {
+          newGame.IWasOnTeam = "B";
+        }
+        newData.push(newGame);
+      });
+    }
 
     const actualPlayerGames = newData.filter((g) => {
       return g.IWasOnTeam != "None";

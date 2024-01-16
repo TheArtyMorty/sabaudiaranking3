@@ -4,6 +4,7 @@ import { GetGameFromDB } from "../services/FirebaseService";
 import { GetButtonTheme } from "../utility/Formatting";
 import { GetDateFromString } from "../utility/Utility";
 import Globals from "../utility/Globals";
+import { GetPseudoOrDefaultForPlayer } from "../utility/PlayerUtility";
 
 const Game = ({ setTransitionDirection }) => {
   const { gameID } = useParams();
@@ -50,7 +51,7 @@ const Game = ({ setTransitionDirection }) => {
         <div className="flex flex-row mb-2 mt-2">
           <h1 className="text-base mr-2">Joueur 1 : </h1>
           <h1 className="text-base italic">
-            {game.TeamA.player1.Pseudo} {"("}
+            {GetPseudoOrDefaultForPlayer(game.TeamA.player1)} {"("}
             {game.TeamA.player1.MMR}
             {" pts)"}
           </h1>
@@ -58,7 +59,7 @@ const Game = ({ setTransitionDirection }) => {
         <div className="flex flex-row mb-2">
           <h1 className="text-base mr-2">Joueur 2 : </h1>
           <h1 className="text-base italic">
-            {game.TeamA.player2.Pseudo} {"("}
+            {GetPseudoOrDefaultForPlayer(game.TeamA.player2)} {"("}
             {game.TeamA.player2.MMR}
             {" pts)"}
           </h1>
@@ -105,7 +106,7 @@ const Game = ({ setTransitionDirection }) => {
         <div className="flex flex-row mb-2 mt-2">
           <h1 className="text-base mr-2">Joueur 1 : </h1>
           <h1 className="text-base italic">
-            {game.TeamB.player1.Pseudo} {"("}
+            {GetPseudoOrDefaultForPlayer(game.TeamB.player1)} {"("}
             {game.TeamB.player1.MMR}
             {" pts)"}
           </h1>
@@ -113,7 +114,7 @@ const Game = ({ setTransitionDirection }) => {
         <div className="flex flex-row mb-2">
           <h1 className="text-base mr-2">Joueur 2 : </h1>
           <h1 className="text-base italic">
-            {game.TeamB.player2.Pseudo} {"("}
+            {GetPseudoOrDefaultForPlayer(game.TeamB.player2)} {"("}
             {game.TeamB.player2.MMR}
             {" pts)"}
           </h1>

@@ -101,6 +101,17 @@ function OptionsScreen({ refresh, setTransitionDirection }) {
         <h1 className="text-base">
           Vous jouez dans le club {Globals.ClubName}.
         </h1>
+        {Globals.Admin && (
+          <button
+            className={GetButtonTheme() + " mt-2 mb-2"}
+            onClick={() => {
+              setTransitionDirection("right-to-left");
+              navigate("/sabaudiaranking3/AddPlayer");
+            }}
+          >
+            Ajouter un joueur
+          </button>
+        )}
         <button
           className={GetButtonTheme() + " mt-2 mb-2"}
           onClick={Disconnect}

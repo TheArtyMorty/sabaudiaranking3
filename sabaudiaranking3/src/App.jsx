@@ -39,12 +39,14 @@ function App({ refresh }) {
         },
         (k) => {
           Globals.Player = k;
+        },
+        (a) => {
+          Globals.Admin = a;
         }
       );
     } else {
       Globals.UserId = "";
     }
-    Globals.Admin = false;
     Globals.Theme = getTheme();
     setNeedRefresh(false);
     refresh(true);

@@ -4,6 +4,7 @@ import searchLogo from "../assets/IconSearch.png";
 import { GetButtonTheme, GetThemeColor2 } from "../utility/Formatting";
 import { useNavigate } from "react-router-dom";
 import Globals from "../utility/Globals";
+import { GetPseudoOrDefaultForPlayer } from "../utility/PlayerUtility";
 
 const Ranking = ({ setTransitionDirection }) => {
   const [dbInitialized, setDBInitialized] = useState(false);
@@ -29,8 +30,10 @@ const Ranking = ({ setTransitionDirection }) => {
         return newPlayer;
       })
       .filter(
-        (a) =>
-          a.Pseudo.toLocaleUpperCase().indexOf(filter.toLocaleUpperCase()) >= 0
+        (p) =>
+          GetPseudoOrDefaultForPlayer(p)
+            .toLocaleUpperCase()
+            .indexOf(filter.toLocaleUpperCase()) >= 0
       )
       .map((p, index) => {
         return (
@@ -41,7 +44,7 @@ const Ranking = ({ setTransitionDirection }) => {
           >
             <h1 className="text-base font-bold">#{p.Rank} -</h1>
             <h1 className="text-base">
-              {p.Pseudo} - {p.MMR} Pts
+              {GetPseudoOrDefaultForPlayer(p)} - {p.MMR} Pts
             </h1>
           </div>
         );

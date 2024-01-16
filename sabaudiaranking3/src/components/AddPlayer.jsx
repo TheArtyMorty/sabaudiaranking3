@@ -7,15 +7,16 @@ import Globals from "../utility/Globals";
 
 const AddPlayer = () => {
   const navigate = useNavigate();
-  const [pseudo, setPseudo] = useState("");
+  const [first, setFirst] = useState("");
+  const [last, setLast] = useState("");
 
   const createPlayer = () => {
-    if (pseudo != "") {
-      addPlayer("", "", pseudo);
+    if (first != "") {
+      addPlayer(last, first, "");
       navigate(-1);
-      toast.info(`Le joueur ${pseudo} a été ajouté avec succès !`);
+      toast.info(`Le joueur ${first} ${last} a été ajouté avec succès !`);
     } else {
-      toast.warning(`Veuillez choisir un pseudo pour le joueur...`);
+      toast.warning(`Veuillez choisir un prénom pour le joueur...`);
     }
   };
 
@@ -30,12 +31,22 @@ const AddPlayer = () => {
         Création du joueur...{" "}
       </h1>
       <div className="flex flex-row self-center">
-        <h1 className="text-base font-bold self-center">Pseudo : </h1>
+        <h1 className="text-base font-bold self-center">Prénom : </h1>
         <input
           className="h-8 m-2 text-base border-stone-300 border-2"
           type="text"
-          value={pseudo}
-          onChange={(e) => setPseudo(e.target.value)}
+          value={first}
+          onChange={(e) => setFirst(e.target.value)}
+          placeholder="..."
+        ></input>
+      </div>
+      <div className="flex flex-row self-center">
+        <h1 className="text-base font-bold self-center">Nom : </h1>
+        <input
+          className="h-8 m-2 text-base border-stone-300 border-2"
+          type="text"
+          value={last}
+          onChange={(e) => setLast(e.target.value)}
           placeholder="..."
         ></input>
       </div>

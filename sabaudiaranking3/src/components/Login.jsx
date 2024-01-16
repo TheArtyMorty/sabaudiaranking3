@@ -14,7 +14,10 @@ import {
   addNewUser,
   getClubsFromDB,
 } from "../services/FirebaseService";
-import { defaultPlayer } from "../utility/PlayerUtility";
+import {
+  GetPseudoOrDefaultForPlayer,
+  defaultPlayer,
+} from "../utility/PlayerUtility";
 import { storeClub, storeUid } from "../utility/LocalService";
 
 const Login = ({ refresh, setTransitionDirection }) => {
@@ -46,9 +49,14 @@ const Login = ({ refresh, setTransitionDirection }) => {
 
   const GetPlayerList = () => {
     return playerList
-      .sort((a, b) => a.Pseudo.localeCompare(b.Pseudo))
+      .filter((p) => p.UserId == undefined || p.UserId == null)
+      .sort((a, b) =>
+        GetPseudoOrDefaultForPlayer(a).localeCompare(
+          GetPseudoOrDefaultForPlayer(b)
+        )
+      )
       .map((p) => {
-        return { value: p.Key, label: p.Pseudo };
+        return { value: p.Key, label: GetPseudoOrDefaultForPlayer(p) };
       });
   };
 
@@ -70,12 +78,12 @@ const Login = ({ refresh, setTransitionDirection }) => {
     navigate(-1);
   };
 
-  const onCreateUser = async () => {
+  const onCreateUser = async (isAdmin) => {
     await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        addNewUser(user.uid, club.Name, player.value);
+        addNewUser(user.uid, club.Name, player.value, isAdmin);
         storeUid(user.uid);
         refresh(true);
         navigateBack();
@@ -122,7 +130,7 @@ const Login = ({ refresh, setTransitionDirection }) => {
         toast.error("Veuillez indiquer qui vous êtes...");
         return;
       }
-      onCreateUser();
+      onCreateUser(clubpassword == club.adminpwd);
     } else {
       onLogIn();
     }

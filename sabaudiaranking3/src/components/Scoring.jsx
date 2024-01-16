@@ -8,7 +8,10 @@ import {
 import { GetButtonTheme } from "../utility/Formatting";
 import { toast } from "react-toastify";
 import Select from "react-select";
-import { defaultPlayer } from "../utility/PlayerUtility";
+import {
+  GetPseudoOrDefaultForPlayer,
+  defaultPlayer,
+} from "../utility/PlayerUtility";
 import "react-toastify/dist/ReactToastify.css";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
@@ -119,10 +122,10 @@ const Scoring = ({ setTransitionDirection }) => {
   const validateGame = () => {
     //Check players are properly set
     if (
-      player1.Pseudo == "..." ||
-      player2.Pseudo == "..." ||
-      player3.Pseudo == "..." ||
-      player4.Pseudo == "..."
+      GetPseudoOrDefaultForPlayer(player1) == "..." ||
+      GetPseudoOrDefaultForPlayer(player2) == "..." ||
+      GetPseudoOrDefaultForPlayer(player3) == "..." ||
+      GetPseudoOrDefaultForPlayer(player4) == "..."
     ) {
       toast.error(`Erreur : Certains joueurs ne sont pas choisis...`);
       return;
@@ -253,9 +256,13 @@ const Scoring = ({ setTransitionDirection }) => {
 
   const GetPlayerList = () => {
     return playerList
-      .sort((a, b) => a.Pseudo.localeCompare(b.Pseudo))
+      .sort((a, b) =>
+        GetPseudoOrDefaultForPlayer(a).localeCompare(
+          GetPseudoOrDefaultForPlayer(b)
+        )
+      )
       .map((p) => {
-        return { value: p, label: p.Pseudo };
+        return { value: p, label: GetPseudoOrDefaultForPlayer(p) };
       });
   };
 
