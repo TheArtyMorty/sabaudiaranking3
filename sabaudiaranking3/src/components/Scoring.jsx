@@ -225,14 +225,19 @@ const Scoring = ({ setTransitionDirection }) => {
               a3,
               b1,
               b2,
-              b3
+              b3,
+              () => {
+                //Update mmr on success
+                updatePlayerMMR(player1.Key, player1.MMR + mmr);
+                updatePlayerMMR(player2.Key, player2.MMR + mmr);
+                updatePlayerMMR(player3.Key, player3.MMR - mmr);
+                updatePlayerMMR(player4.Key, player4.MMR - mmr);
+                navigate(-1);
+              },
+              (err) => {
+                toast.error("Upload error : " + err);
+              }
             );
-            //Update mmr
-            updatePlayerMMR(player1.Key, player1.MMR + mmr);
-            updatePlayerMMR(player2.Key, player2.MMR + mmr);
-            updatePlayerMMR(player3.Key, player3.MMR - mmr);
-            updatePlayerMMR(player4.Key, player4.MMR - mmr);
-            navigate(-1);
           },
         },
         {
@@ -318,23 +323,13 @@ const Scoring = ({ setTransitionDirection }) => {
   };
 
   return (
-    <div
-      className={
-        (Globals.Theme == "Dark" ? "text-white " : "text-red-800 ") +
-        "flex h-full flex-col p-5 text-center justify-center"
-      }
-    >
-      <div
-        className={
-          (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
-          "flex flex-col content-start bg-opacity-25 m-2 items-center"
-        }
-      >
+    <div className="text-text flex h-full flex-col p-5 text-center justify-center">
+      <div className="bg-secondary flex flex-col content-start m-2 items-center">
         <h1 className="text-base font-bold m-2">Equipe A</h1>
         <div className="flex flex-row content-start mb-2">
           <h1 className="text-base self-center mr-2">Joueur 1 : </h1>
           <Select
-            className="flex-1 text-base w-52 text-red-800"
+            className="flex-1 text-base w-52 text-black"
             defaultValue={player1}
             onChange={(p) => setPlayer1(p.value)}
             options={GetPlayerList()}
@@ -343,7 +338,7 @@ const Scoring = ({ setTransitionDirection }) => {
         <div className="flex flex-row content-start mb-2">
           <h1 className="text-base self-center mr-2">Joueur 2 : </h1>
           <Select
-            className="flex-1 text-base w-52 text-red-800"
+            className="flex-1 text-base w-52 text-black"
             defaultValue={player2}
             onChange={(p) => setPlayer2(p.value)}
             options={GetPlayerList()}
@@ -351,13 +346,8 @@ const Scoring = ({ setTransitionDirection }) => {
         </div>
       </div>
 
-      <div
-        className={
-          (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
-          "flex flex-col content-start bg-opacity-25 m-2 items-center"
-        }
-      >
-        <div className="flex flex-row content-start text-red-800">
+      <div className="bg-secondary flex flex-col content-start bg-opacity-25 m-2 items-center">
+        <div className="flex flex-row content-start text-black">
           <input
             className="h-8 m-2 text-base w-8 font-bold text-center"
             type="text"
@@ -383,7 +373,7 @@ const Scoring = ({ setTransitionDirection }) => {
             placeholder="..."
           ></input>
         </div>
-        <div className="flex flex-row content-start text-red-800">
+        <div className="flex flex-row content-start text-black">
           <input
             className="h-8 m-2 text-base w-8 font-bold text-center"
             type="text"
@@ -411,17 +401,12 @@ const Scoring = ({ setTransitionDirection }) => {
         </div>
       </div>
 
-      <div
-        className={
-          (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
-          "flex flex-col content-start bg-opacity-25 m-2 items-center"
-        }
-      >
+      <div className="bg-secondary flex flex-col content-start bg-opacity-25 m-2 items-center">
         <h1 className="text-base font-bold m-2">Equipe B</h1>
         <div className="flex flex-row content-start mb-2">
           <h1 className="text-base self-center mr-2">Joueur 1 : </h1>
           <Select
-            className="flex-1 text-base w-52 text-red-800"
+            className="flex-1 text-base w-52 text-black"
             defaultValue={player3}
             onChange={(p) => setPlayer3(p.value)}
             options={GetPlayerList()}
@@ -430,7 +415,7 @@ const Scoring = ({ setTransitionDirection }) => {
         <div className="flex flex-row content-start mb-2">
           <h1 className="text-base self-center mr-2">Joueur 2 : </h1>
           <Select
-            className="flex-1 text-base w-52 text-red-800"
+            className="flex-1 text-base w-52 text-black"
             defaultValue={player4}
             onChange={(p) => setPlayer4(p.value)}
             options={GetPlayerList()}

@@ -5,6 +5,6 @@ const Globals = {
   ClubName: "",
   Admin: false,
   Theme: "Light",
-  Player: defaultPlayer,
+  Player: defaultPlayer.Key,
 };
 export default Globals;

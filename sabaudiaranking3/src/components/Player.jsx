@@ -5,7 +5,7 @@ import {
   GetPlayerHistoryFromDB,
   updatePlayerPseudo,
 } from "../services/FirebaseService";
-import { GetButtonTheme, GetThemeColor2 } from "../utility/Formatting";
+import { GetButtonTheme } from "../utility/Formatting";
 import { GetDateFromString } from "../utility/Utility";
 import Globals from "../utility/Globals";
 import { GetPseudoOrDefaultForPlayer } from "../utility/PlayerUtility";
@@ -38,7 +38,7 @@ const Player = () => {
       .map((g, index) => {
         return (
           <div
-            className={GetThemeColor2() + " flex flex-row content-start"}
+            className="bg-secondary flex flex-row content-start"
             key={index}
             onTouchEnd={() => navigate("/sabaudiaranking3/games/" + g.ID)}
           >
@@ -58,32 +58,42 @@ const Player = () => {
       });
   };
 
+  const GetWinstreak = () => {
+    let winstreak = 0;
+    let currentWinstreak = 0;
+    for (const g of playerHistory) {
+      if (g.IWasOnTeam == g.Victory) {
+        currentWinstreak++;
+      } else {
+        winstreak = Math.max(winstreak, currentWinstreak);
+        currentWinstreak = 0;
+      }
+    }
+    return Math.max(winstreak, currentWinstreak);
+  };
+
+  const isMe = player.Key == Globals.Player;
   const [editPseudo, setEditPseudo] = useState(false);
   const [pseudo, setPseudo] = useState("");
 
   return (
-    <div
-      className={
-        (Globals.Theme == "Dark" ? "text-white " : "text-red-800 ") +
-        "flex h-full flex-col ml-5 mr-5 text-center"
-      }
-    >
+    <div className="text-text flex h-full flex-col ml-5 mr-5 text-center">
       <div className="flex flex-row justify-center mb-2">
-        {!editPseudo && (
+        {(!isMe || !editPseudo) && (
           <h1 className="text-base font-bold mt-5">
             {GetPseudoOrDefaultForPlayer(player)}
           </h1>
         )}
-        {!editPseudo && (
+        {isMe && !editPseudo && (
           <img
             src={edit}
-            className="h-5 w-5 ml-1 mt-5 bg-slate-500"
+            className="h-5 w-5 ml-1 mt-5 bg-primary border-2 border-text"
             onClick={() => setEditPseudo(true)}
           ></img>
         )}
-        {editPseudo && (
+        {isMe && editPseudo && (
           <input
-            className="text-base mt-4 border-2 border-black"
+            className="text-base mt-4 border-2 border-black text-black"
             type="text"
             label="pseudo"
             value={pseudo}
@@ -98,30 +108,33 @@ const Player = () => {
             placeholder="pseudo"
           />
         )}
-        {editPseudo && (
+        {isMe && editPseudo && (
           <img
             src={validate}
-            className="h-5 w-5 ml-1 mt-5 bg-slate-500"
+            className="h-5 w-5 ml-1 mt-5 bg-primary border-2 border-text"
             onClick={() => setEditPseudo(false)}
           ></img>
         )}
       </div>
 
-      <h1 className="text-base">
-        Actuellement classé #{player.Rank} avec {player.MMR} points.
-      </h1>
-      <h1 className="text-base">
-        Winrate :{" "}
-        {Math.round(
-          (playerHistory.filter((g) => g.IWasOnTeam == g.Victory).length /
-            playerHistory.length) *
-            100
-        )}
-        {"% "}
-        {"("}
-        {playerHistory.filter((g) => g.IWasOnTeam == g.Victory).length} sur{" "}
-        {playerHistory.length} {")"}.
-      </h1>
+      <div className="bg-secondary flex flex-col content-start m-2 items-center">
+        <h1 className="text-base">
+          Actuellement classé #{player.Rank} avec {player.MMR} points.
+        </h1>
+        <h1 className="text-base">
+          Winrate :
+          {` ${Math.round(
+            (playerHistory.filter((g) => g.IWasOnTeam == g.Victory).length /
+              playerHistory.length) *
+              100
+          )}% (${
+            playerHistory.filter((g) => g.IWasOnTeam == g.Victory).length
+          } sur ${playerHistory.length})`}
+        </h1>
+        <h1 className="text-base">
+          Winstreak :{` ${GetWinstreak()} victoires d'affilées`}
+        </h1>
+      </div>
 
       <h1 className="text-base">Historique des parties</h1>
       <div className="mb-5 overflow-hidden overflow-y-scroll border-2 border-black space-y-1 bg-white">

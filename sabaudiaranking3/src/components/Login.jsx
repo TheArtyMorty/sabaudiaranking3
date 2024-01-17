@@ -139,25 +139,15 @@ const Login = ({ refresh, setTransitionDirection }) => {
   };
 
   return (
-    <div
-      className={
-        (Globals.Theme == "Dark" ? "text-white " : "text-red-800 ") +
-        "flex h-full flex-col p-5 text-center"
-      }
-    >
-      <div
-        className={
-          (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
-          "flex flex-col content-start bg-opacity-25 m-2 items-center"
-        }
-      >
+    <div className="text-text flex h-full flex-col p-5 text-center">
+      <div className="bg-secondary flex flex-col content-start m-2 items-center">
         <h1 className="text-lg font-bold">Page de login... </h1>
         <div>
           <label className="text-base" htmlFor="email-address">
             Email address :{" "}
           </label>
           <input
-            className="text-base m-2"
+            className="text-base m-2 text-black"
             type="email"
             label="Email address"
             value={email}
@@ -172,7 +162,7 @@ const Login = ({ refresh, setTransitionDirection }) => {
             Password :{" "}
           </label>
           <input
-            className="text-base m-2"
+            className="text-base m-2 text-black"
             type="password"
             label="Create password"
             value={password}
@@ -189,7 +179,7 @@ const Login = ({ refresh, setTransitionDirection }) => {
         )}
         {createUser && (
           <Select
-            className="text-base w-52 self-center text-red-800"
+            className="text-base w-52 self-center text-black"
             defaultValue={club}
             onChange={(e) => {
               setclub(e.value);
@@ -204,7 +194,7 @@ const Login = ({ refresh, setTransitionDirection }) => {
               Club Password :{" "}
             </label>
             <input
-              className="text-base m-2"
+              className="text-base m-2 text-black"
               type="password"
               label="Create password"
               value={clubpassword}
@@ -221,7 +211,7 @@ const Login = ({ refresh, setTransitionDirection }) => {
 
         {createUser && playerList.length > 0 && (
           <Select
-            className="flex-1 text-base w-52 mt-2 mb-5 text-red-800"
+            className="flex-1 text-base w-52 mt-2 mb-5 text-black"
             value={player}
             onChange={(e) => {
               setPlayer(e);

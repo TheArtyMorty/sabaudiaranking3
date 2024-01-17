@@ -47,7 +47,9 @@ export const addScore = (
   A3,
   B1,
   B2,
-  B3
+  B3,
+  onSuccess,
+  onError
 ) => {
   const newItemKey = push(child(ref(db), Globals.ClubName + "/games")).key;
 
@@ -63,12 +65,18 @@ export const addScore = (
     Date: new Date().toUTCString(),
     Gain: mmrGain,
     Key: newItemKey,
+    Reporter: Globals.Player,
   };
 
   const updates = {};
   updates[Globals.ClubName + "/games/" + newItemKey] = itemData;
 
-  update(ref(db), updates);
+  update(ref(db), updates).then(
+    () => onSuccess(),
+    (error) => {
+      onError(error);
+    }
+  );
 };
 
 export const GetPlayerListFromDB = (setPlayerList) => {

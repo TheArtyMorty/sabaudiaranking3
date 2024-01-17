@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { GetPlayerListFromDB } from "../services/FirebaseService";
 import searchLogo from "../assets/IconSearch.png";
-import { GetButtonTheme, GetThemeColor2 } from "../utility/Formatting";
+import { GetButtonTheme } from "../utility/Formatting";
 import { useNavigate } from "react-router-dom";
 import Globals from "../utility/Globals";
 import { GetPseudoOrDefaultForPlayer } from "../utility/PlayerUtility";
@@ -38,7 +38,7 @@ const Ranking = ({ setTransitionDirection }) => {
       .map((p, index) => {
         return (
           <div
-            className={GetThemeColor2() + " flex flex-row content-start"}
+            className="bg-secondary flex flex-row content-start"
             key={index}
             onTouchEnd={() => navigate("/sabaudiaranking3/player/" + p.Key)}
           >
@@ -57,12 +57,7 @@ const Ranking = ({ setTransitionDirection }) => {
   };
 
   return (
-    <div
-      className={
-        (Globals.Theme == "Dark" ? "text-white " : "text-red-800 ") +
-        "flex h-full flex-col ml-5 mr-5 text-center"
-      }
-    >
+    <div className="text-text flex h-full flex-col ml-5 mr-5 text-center">
       <div className="mb-2 mt-5 self-center text-center">
         <h1 className="text-lg font-bold">Classement : </h1>
         <div className="flex flex-row self-center">
@@ -81,7 +76,7 @@ const Ranking = ({ setTransitionDirection }) => {
           />
         </div>
       </div>
-      <div className="mb-5 overflow-hidden overflow-y-scroll border-2 border-black space-y-1 bg-white">
+      <div className="mb-5 overflow-hidden overflow-y-scroll border-2 border-text space-y-1 bg-white">
         {GetPlayerList()}
       </div>
       <button

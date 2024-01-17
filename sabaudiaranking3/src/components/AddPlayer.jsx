@@ -21,19 +21,14 @@ const AddPlayer = () => {
   };
 
   return (
-    <div
-      className={
-        (Globals.Theme == "Dark" ? "text-white " : "text-red-800 ") +
-        "flex h-full flex-col p-5 text-center"
-      }
-    >
+    <div className="text-text flex h-full flex-col p-5 text-center">
       <h1 className="text-base font-bold self-center">
         Création du joueur...{" "}
       </h1>
       <div className="flex flex-row self-center">
         <h1 className="text-base font-bold self-center">Prénom : </h1>
         <input
-          className="h-8 m-2 text-base border-stone-300 border-2"
+          className="h-8 m-2 text-base border-text border-2 text-black"
           type="text"
           value={first}
           onChange={(e) => setFirst(e.target.value)}
@@ -43,7 +38,7 @@ const AddPlayer = () => {
       <div className="flex flex-row self-center">
         <h1 className="text-base font-bold self-center">Nom : </h1>
         <input
-          className="h-8 m-2 text-base border-stone-300 border-2"
+          className="h-8 m-2 text-base border-text border-2 text-black"
           type="text"
           value={last}
           onChange={(e) => setLast(e.target.value)}

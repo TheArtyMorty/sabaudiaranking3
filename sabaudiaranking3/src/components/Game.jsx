@@ -35,18 +35,8 @@ const Game = ({ setTransitionDirection }) => {
   };
 
   return (
-    <div
-      className={
-        (Globals.Theme == "Dark" ? "text-white " : "text-red-800 ") +
-        "flex h-full flex-col p-5 text-center"
-      }
-    >
-      <div
-        className={
-          (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
-          "flex flex-col content-start bg-opacity-25 m-2 items-center"
-        }
-      >
+    <div className="text-text flex h-full flex-col p-5 text-center">
+      <div className="bg-secondary flex flex-col content-start m-2 items-center">
         <h1 className="text-base font-bold">Equipe A</h1>
         <div className="flex flex-row mb-2 mt-2">
           <h1 className="text-base mr-2">Joueur 1 : </h1>
@@ -66,13 +56,8 @@ const Game = ({ setTransitionDirection }) => {
         </div>
       </div>
 
-      <div
-        className={
-          (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
-          "flex flex-col content-start bg-opacity-25 m-2 items-center"
-        }
-      >
-        <div className="flex flex-row text-red-700">
+      <div className="bg-secondary flex flex-col content-start m-2 items-center">
+        <div className="flex flex-row text-black">
           <h1 className="w-8 h-8 text-lg font-bold bg-white m-4 text-center">
             {game.Scores.Set1.A}
           </h1>
@@ -83,7 +68,7 @@ const Game = ({ setTransitionDirection }) => {
             {game.Scores.Set3.A}
           </h1>
         </div>
-        <div className="flex flex-row text-red-700">
+        <div className="flex flex-row text-black">
           <h1 className="w-8 h-8 text-lg font-bold bg-white m-4 text-center">
             {game.Scores.Set1.B}
           </h1>
@@ -96,12 +81,7 @@ const Game = ({ setTransitionDirection }) => {
         </div>
       </div>
 
-      <div
-        className={
-          (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
-          "flex flex-col content-start bg-opacity-25 m-2 items-center"
-        }
-      >
+      <div className="bg-secondary flex flex-col content-start m-2 items-center">
         <h1 className="text-base font-bold">Equipe B</h1>
         <div className="flex flex-row mb-2 mt-2">
           <h1 className="text-base mr-2">Joueur 1 : </h1>
@@ -121,12 +101,7 @@ const Game = ({ setTransitionDirection }) => {
         </div>
       </div>
 
-      <div
-        className={
-          (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
-          "flex flex-col content-start bg-opacity-25 m-2 items-center"
-        }
-      >
+      <div className="bg-secondary flex flex-col content-start m-2 items-center">
         <h1 className="text-base font-bold">Résultat :</h1>
         <h1 className="text-base mb-1 mt-1">
           {GetDateFromString(game.Date).toLocaleString()}

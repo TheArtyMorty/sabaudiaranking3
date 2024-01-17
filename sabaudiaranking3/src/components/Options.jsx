@@ -79,25 +79,10 @@ function OptionsScreen({ refresh, setTransitionDirection }) {
   };
 
   return (
-    <div
-      className={
-        (Globals.Theme == "Dark" ? "text-white " : "text-red-800 ") +
-        "flex h-full flex-col p-5 text-center"
-      }
-    >
-      <div
-        className={
-          (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
-          "flex flex-col content-start bg-opacity-25 m-2 items-center"
-        }
-      >
+    <div className="text-text flex h-full flex-col p-5 text-center">
+      <div className="bg-secondary flex flex-col content-start m-2 items-center">
         <h1 className="text-lg font-bold mt-2">Informations du Joueur</h1>
-        <div
-          className={
-            (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
-            "h-0.5 m-2 w-9/12"
-          }
-        />
+        <div className="bg-primary h-0.5 m-2 w-9/12" />
         <h1 className="text-base">
           Vous jouez dans le club {Globals.ClubName}.
         </h1>
@@ -120,19 +105,9 @@ function OptionsScreen({ refresh, setTransitionDirection }) {
         </button>
       </div>
 
-      <div
-        className={
-          (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
-          "flex flex-col content-start bg-opacity-25 m-2 items-center"
-        }
-      >
+      <div className="bg-secondary flex flex-col content-start m-2 items-center">
         <h1 className="text-lg font-bold mt-2">{"Options d'interface"}</h1>
-        <div
-          className={
-            (Globals.Theme == "Dark" ? "bg-white " : "bg-red-800 ") +
-            "h-0.5 m-2 w-9/12"
-          }
-        />
+        <div className="bg-primary h-0.5 m-2 w-9/12" />
         <h1 className="text-base">Theme graphique :</h1>
         <Select
           className="flex-1 text-base w-52 mt-2 mb-5 text-red-800"

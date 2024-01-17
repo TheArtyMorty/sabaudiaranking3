@@ -1,6 +1,4 @@
 import "./App.css";
-import "./App.css";
-
 import { useState } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -14,7 +12,7 @@ import Player from "./components/Player";
 import Ranking from "./components/Ranking";
 import Login from "./components/Login";
 import Scoring from "./components/Scoring";
-import { GetBackgroundColor } from "./utility/Formatting";
+
 import Globals from "./utility/Globals";
 import { getTheme, getUid } from "./utility/LocalService";
 import { GetUserFromDB } from "./services/FirebaseService";
@@ -50,6 +48,7 @@ function App({ refresh }) {
     Globals.Theme = getTheme();
     setNeedRefresh(false);
     refresh(true);
+    //console.log(Globals);
   }
 
   return (
@@ -117,7 +116,12 @@ const Root = () => {
   }
 
   return (
-    <div id="root" className={GetBackgroundColor() + " h-screen w-screen"}>
+    <div
+      id="root"
+      className={`bg-background h-screen w-screen ${
+        Globals.Theme == "Dark" && "dark"
+      }`}
+    >
       <BrowserRouter>
         <App refresh={setNeedRefresh} />{" "}
       </BrowserRouter>

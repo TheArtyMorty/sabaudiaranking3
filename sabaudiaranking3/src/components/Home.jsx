@@ -49,18 +49,16 @@ const Home = ({ setTransitionDirection }) => {
   return (
     <div
       className={
-        (Globals.Theme == "Dark" ? "text-white " : "text-red-800 ") +
-        "flex h-full flex-col p-5 text-center justify-center"
+        "text-text flex h-full flex-col p-5 text-center justify-center"
       }
     >
       <h1 className="text-xl">Bienvenue sur</h1>
-      <h1 className="title-xl font-bold mb-10">Sabaudia Ranking</h1>
+      <h1 className="text-primary title-xl font-bold mb-10">
+        Sabaudia Ranking
+      </h1>
       <img
         src={logo}
-        className={
-          (Globals.Theme == "Dark" ? "invert brightness-50 " : "") +
-          "h-36 w-36 m-5 self-center animate-bounce-slow"
-        }
+        className="fill-orange-500 text-secondary h-36 w-36 m-5 self-center animate-bounce-slow"
       ></img>
       {Globals.Player != undefined && Globals.Player != "" && isLogged && (
         <button className={GetButtonTheme() + " m-1 mb-5"} onClick={GoToMyPage}>

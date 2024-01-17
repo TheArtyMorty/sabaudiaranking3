@@ -13,6 +13,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --text: #000000;
+    --background: #d7d3c6;
+    --primary: #ff4400;
+    --secondary: #e9a62b;
+    --accent: #ffd333;
+  }
+  .dark {
+    --text: #ffffff;
+    --background: #393528;
+    --primary: #ff4400;
+    --secondary: #e9a62b;
+    --accent: #cca000;
+  }
+}
+
 a {
   font-weight: 500;
   color: #d4199c;
