@@ -17,6 +17,8 @@ import Globals from "./utility/Globals";
 import { getTheme, getUid } from "./utility/LocalService";
 import { GetUserFromDB } from "./services/FirebaseService";
 
+import background from "./assets/Background.png";
+
 function App() {
   const [transitionDirection, setTransitionDirection] =
     useState("right-to-left");
