@@ -79,7 +79,7 @@ export const addScore = (
   );
 };
 
-export const GetPlayerListFromDB = (setPlayerList) => {
+export const GetPlayerListFromDB = (onSuccess) => {
   const playersRef = ref(db, Globals.ClubName + "/players/");
   onValue(playersRef, (snapshot) => {
     const data = snapshot.val();
@@ -95,7 +95,7 @@ export const GetPlayerListFromDB = (setPlayerList) => {
         Rank: 0,
       });
     });
-    setPlayerList(playerList);
+    onSuccess(playerList);
   });
 };
 
@@ -114,7 +114,7 @@ export const GetUserFromDB = (userId, setClub, setPlayerKey, setAdmin) => {
   });
 };
 
-export const GetPlayerFromDB = (playerID, setPlayer) => {
+export const GetPlayerFromDB = (playerID, onSuccess) => {
   const playersRef = ref(db, Globals.ClubName + "/players/");
   onValue(playersRef, (snapshot) => {
     const data = snapshot.val();
@@ -138,8 +138,7 @@ export const GetPlayerFromDB = (playerID, setPlayer) => {
         return newPlayer;
       })
       .find((p) => p.Key == playerID);
-
-    setPlayer(actualPlayer);
+    onSuccess(actualPlayer);
   });
 };
 

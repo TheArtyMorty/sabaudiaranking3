@@ -27,9 +27,11 @@ const Player = () => {
   const [playerHistory, setplayerHistory] = useState([]);
 
   if (!dbInitialized) {
-    GetPlayerFromDB(playerID, setPlayer);
-    GetPlayerHistoryFromDB(playerID, setplayerHistory);
-    setDBInitialized(true);
+    GetPlayerFromDB(playerID, (player) => {
+      setPlayer(player);
+      GetPlayerHistoryFromDB(playerID, setplayerHistory);
+      setDBInitialized(true);
+    });
   }
 
   const GetPlayerGames = () => {

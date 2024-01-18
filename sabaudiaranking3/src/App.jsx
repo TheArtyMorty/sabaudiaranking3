@@ -17,11 +17,12 @@ import Globals from "./utility/Globals";
 import { getTheme, getUid } from "./utility/LocalService";
 import { GetUserFromDB } from "./services/FirebaseService";
 
-function App({ refresh }) {
-  const [needRefresh, setNeedRefresh] = useState(true);
+function App() {
   const [transitionDirection, setTransitionDirection] =
     useState("right-to-left");
   const location = useLocation();
+
+  const [needRefresh, setNeedRefresh] = useState(true);
 
   if (needRefresh) {
     Globals.UserId = getUid();
@@ -40,19 +41,22 @@ function App({ refresh }) {
         },
         (a) => {
           Globals.Admin = a;
+          setNeedRefresh(false);
         }
       );
     } else {
       Globals.UserId = "";
     }
     Globals.Theme = getTheme();
-    setNeedRefresh(false);
-    refresh(true);
-    //console.log(Globals);
   }
 
   return (
-    <TransitionGroup component={null}>
+    <div
+      id="root"
+      className={`bg-background h-screen w-screen ${
+        Globals.Theme == "Dark" && "dark"
+      }`}
+    >
       <CSSTransition
         key={location.key}
         classNames={transitionDirection}
@@ -104,26 +108,17 @@ function App({ refresh }) {
           />
         </Routes>
       </CSSTransition>
-    </TransitionGroup>
+    </div>
   );
 }
 
 const Root = () => {
-  const [needRefresh, setNeedRefresh] = useState(false);
-
-  if (needRefresh) {
-    setNeedRefresh(false);
-  }
-
   return (
-    <div
-      id="root"
-      className={`bg-background h-screen w-screen ${
-        Globals.Theme == "Dark" && "dark"
-      }`}
-    >
+    <div>
       <BrowserRouter>
-        <App refresh={setNeedRefresh} />{" "}
+        <TransitionGroup component={null}>
+          <App />
+        </TransitionGroup>
       </BrowserRouter>
       <ToastContainer />
     </div>

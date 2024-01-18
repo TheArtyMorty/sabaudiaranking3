@@ -22,8 +22,10 @@ const Scoring = ({ setTransitionDirection }) => {
   const [playerList, setPlayerList] = useState([]);
   const navigate = useNavigate();
   if (!dbInitialized) {
-    GetPlayerListFromDB(setPlayerList);
-    setDBInitialized(true);
+    GetPlayerListFromDB((playerList) => {
+      setPlayerList(playerList);
+      setDBInitialized(true);
+    });
   }
 
   const isSetOfficial = (a, b) => {
