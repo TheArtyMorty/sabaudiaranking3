@@ -138,7 +138,7 @@ export const GetPlayerFromDB = (playerID, onSuccess) => {
         return newPlayer;
       })
       .find((p) => p.Key == playerID);
-    onSuccess(actualPlayer);
+    onSuccess(actualPlayer, newData);
   });
 };
 
@@ -159,16 +159,18 @@ export const GetPlayerHistoryFromDB = (playerID, setPlayerHistory) => {
           IWasOnTeam: "None",
           ID: game.Key,
         };
-        if (
-          game.TeamA.player1.Key == playerID ||
-          game.TeamA.player2.Key == playerID
-        ) {
+        if (game.TeamA.player1.Key == playerID) {
           newGame.IWasOnTeam = "A";
-        } else if (
-          game.TeamB.player1.Key == playerID ||
-          game.TeamB.player2.Key == playerID
-        ) {
+          newGame.Partner = game.TeamA.player2.Key;
+        } else if (game.TeamA.player2.Key == playerID) {
+          newGame.IWasOnTeam = "A";
+          newGame.Partner = game.TeamA.player1.Key;
+        } else if (game.TeamB.player1.Key == playerID) {
           newGame.IWasOnTeam = "B";
+          newGame.Partner = game.TeamB.player2.Key;
+        } else if (game.TeamB.player2.Key == playerID) {
+          newGame.IWasOnTeam = "B";
+          newGame.Partner = game.TeamB.player1.Key;
         }
         newData.push(newGame);
       });

@@ -110,7 +110,7 @@ function OptionsScreen({ refresh, setTransitionDirection }) {
         <div className="bg-primary h-0.5 m-2 w-9/12" />
         <h1 className="text-base">Theme graphique :</h1>
         <Select
-          className="flex-1 text-base w-52 mt-2 mb-5 text-red-800"
+          className="flex-1 text-base w-52 mt-2 mb-5 text-black"
           defaultValue={theme}
           onChange={(e) => {
             ChangeAppTheme(e.value);

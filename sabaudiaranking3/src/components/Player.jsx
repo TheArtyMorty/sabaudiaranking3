@@ -11,6 +11,7 @@ import Globals from "../utility/Globals";
 import { GetPseudoOrDefaultForPlayer } from "../utility/PlayerUtility";
 import edit from "../assets/IconEdit.png";
 import validate from "../assets/IconValidate.png";
+import { PlayerStat } from "./PlayerStat";
 
 const Player = () => {
   const { playerID } = useParams();
@@ -25,10 +26,12 @@ const Player = () => {
     Key: "...",
   });
   const [playerHistory, setplayerHistory] = useState([]);
+  const [players, setPlayers] = useState([]);
 
   if (!dbInitialized) {
-    GetPlayerFromDB(playerID, (player) => {
+    GetPlayerFromDB(playerID, (player, players) => {
       setPlayer(player);
+      setPlayers(players);
       GetPlayerHistoryFromDB(playerID, setplayerHistory);
       setDBInitialized(true);
     });
@@ -42,7 +45,7 @@ const Player = () => {
           <div
             className="bg-secondary flex flex-row content-start"
             key={index}
-            onTouchEnd={() => navigate("/sabaudiaranking3/games/" + g.ID)}
+            onClick={() => navigate("/sabaudiaranking3/games/" + g.ID)}
           >
             <h1 className="text-base italic">
               {GetDateFromString(g.Date).toDateString() + " - "}
@@ -72,6 +75,60 @@ const Player = () => {
       }
     }
     return Math.max(winstreak, currentWinstreak);
+  };
+
+  const GetBestTeammate = () => {
+    const map = new Map();
+    for (const g of playerHistory) {
+      if (g.IWasOnTeam == g.Victory) {
+        map.set(g.Partner, (map.get(g.Partner) ?? 0) + 1);
+      }
+    }
+    var best = 0;
+    var bestkey = "...";
+    map.forEach((value, key) => {
+      if (value > best) {
+        best = value;
+        bestkey = key;
+      }
+    });
+    var bestname = "...";
+    if (bestkey != "...") {
+      bestname = GetPseudoOrDefaultForPlayer(
+        players.find((p) => p.Key == bestkey)
+      );
+    }
+    return { name: bestname, score: best };
+  };
+
+  const GetNemesis = () => {
+    const map = new Map();
+    for (const g of playerHistory) {
+      if (g.IWasOnTeam != g.Victory) {
+        if (g.IWasOnTeam == "A") {
+          map.set(g.TeamB.player1.Key, (map.get(g.TeamB.player1.Key) ?? 0) + 1);
+          map.set(g.TeamB.player2.Key, (map.get(g.TeamB.player2.Key) ?? 0) + 1);
+        } else if (g.IWasOnTeam == "B") {
+          map.set(g.TeamA.player1.Key, (map.get(g.TeamA.player1.Key) ?? 0) + 1);
+          map.set(g.TeamA.player2.Key, (map.get(g.TeamA.player2.Key) ?? 0) + 1);
+        }
+      }
+    }
+    var best = 0;
+    var bestkey = "...";
+    map.forEach((value, key) => {
+      if (value > best) {
+        best = value;
+        bestkey = key;
+      }
+    });
+    var bestname = "...";
+    if (bestkey != "...") {
+      bestname = GetPseudoOrDefaultForPlayer(
+        players.find((p) => p.Key == bestkey)
+      );
+    }
+    return { name: bestname, score: best };
   };
 
   const isMe = player.Key == Globals.Player;
@@ -120,22 +177,59 @@ const Player = () => {
       </div>
 
       <div className="bg-secondary flex flex-col content-start m-2 items-center">
-        <h1 className="text-base">
-          Actuellement classé #{player.Rank} avec {player.MMR} points.
-        </h1>
-        <h1 className="text-base">
-          Winrate :
-          {` ${Math.round(
-            (playerHistory.filter((g) => g.IWasOnTeam == g.Victory).length /
-              playerHistory.length) *
-              100
-          )}% (${
-            playerHistory.filter((g) => g.IWasOnTeam == g.Victory).length
-          } sur ${playerHistory.length})`}
-        </h1>
-        <h1 className="text-base">
-          Winstreak :{` ${GetWinstreak()} victoires d'affilées`}
-        </h1>
+        {playerHistory.length == 0 && (
+          <h1 className="text-base">Aucune partie trouvée pour ce joueur.</h1>
+        )}
+        {playerHistory.length > 0 && (
+          <div className="flex flex-row text-black">
+            <PlayerStat
+              statNumber={`#${player.Rank}`}
+              statName={"Classement"}
+              statDescription={`Actuellement classé #${player.Rank} avec ${player.MMR} points.`}
+              size={"w-28 h-16"}
+            />
+            <PlayerStat
+              statNumber={`${Math.round(
+                (playerHistory.filter((g) => g.IWasOnTeam == g.Victory).length /
+                  playerHistory.length) *
+                  100
+              )}%`}
+              statName={"Winrate"}
+              statDescription={`${
+                playerHistory.filter((g) => g.IWasOnTeam == g.Victory).length
+              } victoires, ${
+                playerHistory.filter((g) => g.IWasOnTeam != g.Victory).length
+              } défaites.`}
+              size={"w-20 h-16"}
+            />
+            <PlayerStat
+              statNumber={`${GetWinstreak()}`}
+              statName={"Winstreak"}
+              statDescription={` ${GetWinstreak()} victoires d'affilées`}
+              size={"w-24 h-16"}
+            />
+          </div>
+        )}
+        {playerHistory.length > 0 && (
+          <div className="flex flex-row text-black">
+            <PlayerStat
+              statNumber={`${GetBestTeammate().name}`}
+              statName={"Partenaire"}
+              statDescription={`${GetBestTeammate().score} victoires avec ${
+                GetBestTeammate().name
+              }`}
+              size={"w-36 h-16"}
+            />
+            <PlayerStat
+              statNumber={`${GetNemesis().name}`}
+              statName={"Némésis"}
+              statDescription={`${GetNemesis().score} défaites contre ${
+                GetNemesis().name
+              }`}
+              size={"w-36 h-16"}
+            />
+          </div>
+        )}
       </div>
 
       <h1 className="text-base">Historique des parties</h1>

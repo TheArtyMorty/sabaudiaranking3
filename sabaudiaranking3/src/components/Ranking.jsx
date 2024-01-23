@@ -42,7 +42,7 @@ const Ranking = ({ setTransitionDirection }) => {
           <div
             className="bg-secondary flex flex-row content-start"
             key={index}
-            onTouchEnd={() => navigate("/sabaudiaranking3/player/" + p.Key)}
+            onClick={() => navigate("/sabaudiaranking3/player/" + p.Key)}
           >
             <h1 className="text-base font-bold">#{p.Rank} -</h1>
             <h1 className="text-base">
@@ -70,7 +70,7 @@ const Ranking = ({ setTransitionDirection }) => {
             }
           ></img>
           <input
-            className="h-8 m-2 text-base border-stone-300 border-2"
+            className="h-8 m-2 text-base text-black border-stone-300 border-2"
             type="text"
             value={filter}
             onChange={handleChange}
