@@ -14,3 +14,10 @@ export const GetPseudoOrDefaultForPlayer = (player) => {
     return player.FirstName + " " + player.LastName;
   }
 };
+
+export const GetPlayerMMRForRanking = (player) => {
+  if (player.HasPlayedaGame) {
+    return player.MMR;
+  }
+  return 0;
+};

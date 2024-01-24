@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import {
   GetPlayerListFromDB,
   addScore,
+  updatePlayerHasPlayerAGame,
   updatePlayerMMR,
 } from "../services/FirebaseService";
 import { GetButtonTheme } from "../utility/Formatting";
@@ -45,16 +46,22 @@ const Scoring = ({ setTransitionDirection }) => {
   };
 
   const isSetValid = (a, b, setNumber) => {
-    if (isNaN(a) || isNaN(b)) {
+    console.log(a);
+    if (isNaN(a) || isNaN(b) || a == "" || b == "") {
       toast.error(
-        `Erreur : Format de score incorrect pour le set` + setNumber + `...`
+        `Erreur : Format de score incorrect pour le set ${setNumber}...`
       );
       return false;
     }
     const scoreA = Math.floor(a);
     const scoreB = Math.floor(b);
 
-    return scoreA != scoreB;
+    if (scoreA == scoreB) {
+      toast.error(`Erreur : Le set ${setNumber} est une égalité...`);
+      return false;
+    }
+
+    return true;
   };
 
   const getTeamNote = (p1, p2) => {
@@ -141,7 +148,7 @@ const Scoring = ({ setTransitionDirection }) => {
       player2 == player4 ||
       player3 == player4
     ) {
-      toast.error("Erreur", `Erreur : Des joueurs apparaissent en double...`);
+      toast.error(`Erreur : Des joueurs apparaissent en double...`);
       return;
     }
     // check scores are valid
@@ -234,6 +241,10 @@ const Scoring = ({ setTransitionDirection }) => {
                 updatePlayerMMR(player2.Key, player2.MMR + mmr);
                 updatePlayerMMR(player3.Key, player3.MMR - mmr);
                 updatePlayerMMR(player4.Key, player4.MMR - mmr);
+                updatePlayerHasPlayerAGame(player1.Key, true);
+                updatePlayerHasPlayerAGame(player2.Key, true);
+                updatePlayerHasPlayerAGame(player3.Key, true);
+                updatePlayerHasPlayerAGame(player4.Key, true);
                 navigate(-1);
               },
               (err) => {

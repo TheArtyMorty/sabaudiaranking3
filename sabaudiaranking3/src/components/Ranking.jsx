@@ -4,7 +4,10 @@ import searchLogo from "../assets/IconSearch.png";
 import { GetButtonTheme } from "../utility/Formatting";
 import { useNavigate } from "react-router-dom";
 import Globals from "../utility/Globals";
-import { GetPseudoOrDefaultForPlayer } from "../utility/PlayerUtility";
+import {
+  GetPlayerMMRForRanking,
+  GetPseudoOrDefaultForPlayer,
+} from "../utility/PlayerUtility";
 
 const Ranking = ({ setTransitionDirection }) => {
   const [dbInitialized, setDBInitialized] = useState(false);
@@ -25,7 +28,7 @@ const Ranking = ({ setTransitionDirection }) => {
 
   const GetPlayerList = () => {
     return playerList
-      .sort((a, b) => b.MMR - a.MMR)
+      .sort((a, b) => GetPlayerMMRForRanking(b) - GetPlayerMMRForRanking(a))
       .map((p, index) => {
         var newPlayer = p;
         newPlayer.Rank = index + 1;
@@ -46,7 +49,7 @@ const Ranking = ({ setTransitionDirection }) => {
           >
             <h1 className="text-base font-bold">#{p.Rank} -</h1>
             <h1 className="text-base">
-              {GetPseudoOrDefaultForPlayer(p)} - {p.MMR} Pts
+              {GetPseudoOrDefaultForPlayer(p)} - {GetPlayerMMRForRanking(p)} Pts
             </h1>
           </div>
         );

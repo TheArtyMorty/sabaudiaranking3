@@ -1,6 +1,7 @@
 import { ref, set, child, push, update, onValue } from "firebase/database";
 import { db } from "../firebaseConfig.js";
 import Globals from "../utility/Globals.js";
+import { GetPlayerMMRForRanking } from "../utility/PlayerUtility.js";
 
 export const addPlayer = (lastName, firstName, pseudo) => {
   const newItemKey = push(child(ref(db), Globals.ClubName + "/players")).key;
@@ -22,6 +23,7 @@ export const addNewUser = (userId, club, playerKey, admin) => {
     Club: club,
     Key: playerKey,
     Admin: admin,
+    HasPlayedaGame: false,
   };
   set(ref(db, "users/" + userId + "/"), itemData);
   set(ref(db, club + "/players/" + playerKey + "/UserId"), userId);
@@ -33,6 +35,13 @@ export const updatePlayerMMR = (playerKey, newMMR) => {
 
 export const updatePlayerPseudo = (playerKey, pseudo) => {
   set(ref(db, Globals.ClubName + "/players/" + playerKey + "/Pseudo"), pseudo);
+};
+
+export const updatePlayerHasPlayerAGame = (playerKey, hasPlayed) => {
+  set(
+    ref(db, Globals.ClubName + "/players/" + playerKey + "/HasPlayedaGame"),
+    hasPlayed
+  );
 };
 
 export const addScore = (
@@ -93,6 +102,7 @@ export const GetPlayerListFromDB = (onSuccess) => {
         Pseudo: player.Pseudo,
         UserId: player.UserId ?? "...",
         Rank: 0,
+        HasPlayedaGame: player.HasPlayedaGame ?? false,
       });
     });
     onSuccess(playerList);
@@ -127,11 +137,12 @@ export const GetPlayerFromDB = (playerID, onSuccess) => {
         MMR: player.MMR,
         Pseudo: player.Pseudo,
         Rank: 0,
+        HasPlayedaGame: player.HasPlayedaGame ?? false,
       });
     });
 
     const actualPlayer = newData
-      .sort((a, b) => b.MMR - a.MMR)
+      .sort((a, b) => GetPlayerMMRForRanking(b) - GetPlayerMMRForRanking(a))
       .map((p, index) => {
         var newPlayer = p;
         newPlayer.Rank = index + 1;
@@ -181,6 +192,29 @@ export const GetPlayerHistoryFromDB = (playerID, setPlayerHistory) => {
     });
 
     setPlayerHistory(actualPlayerGames);
+  });
+};
+
+export const GetGamesHistoryFromDB = (onResult) => {
+  const gamesRef = ref(db, Globals.ClubName + "/games/");
+  onValue(gamesRef, (snapshot) => {
+    const data = snapshot.val();
+    let newData = [];
+    if (data != null) {
+      Object.values(data).forEach((game) => {
+        let newGame = {
+          Date: game.Date,
+          Victory: game.Victory,
+          Scores: game.Scores,
+          TeamA: game.TeamA,
+          TeamB: game.TeamB,
+          Gain: game.Gain,
+          ID: game.Key,
+        };
+        newData.push(newGame);
+      });
+    }
+    onResult(newData);
   });
 };
 

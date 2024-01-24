@@ -24,6 +24,7 @@ const Player = () => {
     Pseudo: "...",
     Rank: 0,
     Key: "...",
+    HasPlayedaGame: false,
   });
   const [playerHistory, setplayerHistory] = useState([]);
   const [players, setPlayers] = useState([]);
@@ -177,10 +178,10 @@ const Player = () => {
       </div>
 
       <div className="bg-secondary flex flex-col content-start m-2 items-center">
-        {playerHistory.length == 0 && (
+        {!player.HasPlayedaGame && (
           <h1 className="text-base">Aucune partie trouvée pour ce joueur.</h1>
         )}
-        {playerHistory.length > 0 && (
+        {player.HasPlayedaGame && (
           <div className="flex flex-row text-black">
             <PlayerStat
               statNumber={`#${player.Rank}`}
@@ -210,7 +211,7 @@ const Player = () => {
             />
           </div>
         )}
-        {playerHistory.length > 0 && (
+        {player.HasPlayedaGame && (
           <div className="flex flex-row text-black">
             <PlayerStat
               statNumber={`${GetBestTeammate().name}`}
@@ -232,10 +233,14 @@ const Player = () => {
         )}
       </div>
 
-      <h1 className="text-base">Historique des parties</h1>
-      <div className="mb-5 overflow-hidden overflow-y-scroll border-2 border-black space-y-1 bg-white">
-        {GetPlayerGames()}
-      </div>
+      {player.HasPlayedaGame && (
+        <div>
+          <h1 className="text-base">Historique des parties</h1>
+          <div className="mb-5 overflow-hidden overflow-y-scroll border-2 border-black space-y-1 bg-white">
+            {GetPlayerGames()}
+          </div>
+        </div>
+      )}
 
       <button
         className={GetButtonTheme() + " m-1 mb-5 mt-auto"}

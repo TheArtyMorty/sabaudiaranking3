@@ -50,6 +50,7 @@ function App() {
       Globals.UserId = "";
     }
     Globals.Theme = getTheme();
+    //console.log(Globals);
   }
 
   return (
